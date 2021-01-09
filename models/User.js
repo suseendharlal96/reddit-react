@@ -1,4 +1,5 @@
 const { model, Schema } = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -29,5 +30,13 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
+
+userSchema.pre("save", async function () {
+  try {
+    this.password = await bcrypt.hash(this.password, 6);
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 module.exports = model("User", userSchema);
