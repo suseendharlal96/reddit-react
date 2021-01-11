@@ -7,7 +7,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const userRoute = require("./routes/auth");
-const trim = require("./middleware/trim");
+const postRoute = require("./routes/post");
 
 const app = express();
 
@@ -15,11 +15,10 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use(cookieParser());
-// app.use(trim);
 
-// app.get("/", (req, res) => res.json({ message: "Hello" }));
 
 app.use("/api/auth", userRoute);
+app.use("/api/post", postRoute);
 
 mongoose
   .connect(process.env.MONGOOSE, {

@@ -33,6 +33,7 @@ const userSchema = new Schema(
 
 userSchema.pre("save", async function () {
   try {
+    console.log(this.password)
     this.password = await bcrypt.hash(this.password, 6);
   } catch (err) {
     console.log(err);
