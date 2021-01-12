@@ -24,4 +24,26 @@ module.exports = {
       return res.status(500).json({ error: "Something went wrong" });
     }
   },
+
+  getPosts: async (req, res) => {
+    try {
+      const posts = await Post.find().populate("sub").sort({ createdAt: "-1" });
+      return res.status(200).json(posts);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ err: "something went wrong" });
+    }
+  },
+
+  getPost: async (req, res) => {
+    const { identifier, slug } = req.params;
+    try {
+      const post = await Post.find({ slug, identifier }).populate("sub");
+      if (!post) return res.status(404).json({ error: "Post not found" });
+      return res.status(200).json(post);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).json({ err: "something went wrong" });
+    }
+  },
 };
