@@ -8,6 +8,7 @@ dotenv.config();
 
 const userRoute = require("./routes/auth");
 const postRoute = require("./routes/post");
+const subsRoute = require("./routes/subs");
 
 const app = express();
 
@@ -16,9 +17,9 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 app.use(cookieParser());
 
-
 app.use("/api/auth", userRoute);
 app.use("/api/post", postRoute);
+app.use("/api/subs", subsRoute);
 
 mongoose
   .connect(process.env.MONGOOSE, {

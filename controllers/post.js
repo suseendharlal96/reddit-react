@@ -1,5 +1,6 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
+const Subs = require("../models/Subs");
 
 module.exports = {
   createPost: async (req, res) => {
@@ -9,10 +10,12 @@ module.exports = {
       const userObj = await User.findOne({ username: user.username }).select(
         "-password"
       );
+      const sub = await Subs.findOne({ name: subName }).orFail();
       const newPost = await Post.create({
         title,
         body,
         subName,
+        sub,
         user: userObj,
       });
       return res.status(201).json(newPost);

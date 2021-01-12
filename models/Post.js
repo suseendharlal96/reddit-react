@@ -24,6 +24,11 @@ const postSchema = new Schema(
       type: String,
       required: [true, "SubName required"],
     },
+    sub: {
+      type: Schema.Types.ObjectId,
+      ref: "Subs",
+      required: true,
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
