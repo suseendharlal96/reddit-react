@@ -10,12 +10,12 @@ const userSchema = new Schema(
       unique: true,
       minlength: [3, "Must be atleast 3 characters long"],
       trim: true,
-      required: [true, "Username is required"],
+      required: [true, "Must not be empty"],
     },
     email: {
       type: String,
       unique: true,
-      required: [true, "Email is required"],
+      required: [true, "Must not be empty"],
       trim: true,
       validate: {
         validator: (email) => emailRegex.test(email),
@@ -25,7 +25,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       minlength: [6, "Must be atleast 6 characters long"],
-      required: [true, "Password is required"],
+      required: [true, "Must not be empty"],
     },
   },
   { timestamps: true }
@@ -33,7 +33,7 @@ const userSchema = new Schema(
 
 userSchema.pre("save", async function () {
   try {
-    console.log(this.password)
+    console.log(this.password);
     this.password = await bcrypt.hash(this.password, 6);
   } catch (err) {
     console.log(err);

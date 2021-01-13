@@ -11,7 +11,7 @@ module.exports = {
       const errors = {};
       const isUsernameExists = await User.findOne({ username });
       const isEmailExists = await User.findOne({ email });
-      if (isUsernameExists) errors.userame = "Username is already taken";
+      if (isUsernameExists) errors.username = "Username is already taken";
       if (isEmailExists) errors.email = "Email is already taken";
       if (Object.keys(errors).length > 0) {
         return res.status(400).json(errors);
@@ -24,7 +24,11 @@ module.exports = {
       const user = await User.findOne({ username }).select("-password");
       res.status(201).json(user);
     } catch (err) {
-      res.status(400).json(err);
+      const errObj = {};
+      Object.entries(err.errors).forEach(([key, value]) => {
+        errObj[key] = value.properties.message;
+      });
+      res.status(400).json(errObj);
     }
   },
 
