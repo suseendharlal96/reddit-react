@@ -35,15 +35,16 @@ module.exports = {
   signin: async (req, res) => {
     const { username, password } = req.body;
     console.log({ username, password });
-    const errors = {};
-    if (username && username.trim().length === 0)
-      errors.username = "Username required";
-    if (password && password.trim().length === 0)
-      errors.password = "Password required";
-    if (Object.keys(errors).length > 0) {
-      return res.status(400).json(errors);
-    }
+
     try {
+      const errors = {};
+      if (username && username.trim().length === 0)
+        errors.username = "Username required";
+      if (password && password.trim().length === 0)
+        errors.password = "Password required";
+      if (Object.keys(errors).length > 0) {
+        return res.status(400).json(errors);
+      }
       const user = await User.findOne({ username: username.trim() });
       console.log(user);
       if (!user) errors.username = "Username not found";

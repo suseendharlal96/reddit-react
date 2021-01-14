@@ -13,22 +13,22 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const router = useRouter();
   const [error, setError] = useState<any>({});
-  const onSubmit = async () => {
+  const onSubmit = async (e) => {
+    e.preventDefault();
     try {
       await axios.post("/auth/signin", {
         username,
         password,
       });
-      router.push("/register");
+      router.push("/");
     } catch (error) {
-      // console.log(error.response.data);
       if (error && error.response && error.response.data) {
         setError(error.response.data);
       }
     }
   };
   return (
-    <div className="flex">
+    <div className="flex bg-white">
       <Head>
         <title>Login</title>
         <link rel="icon" href="/favicon.ico" />
@@ -43,15 +43,18 @@ const Login = () => {
           <p className="mb-10 text-xs">
             By continuing, you agree to our User Agreement and Privacy Policy.
           </p>
-          {/* {JSON.stringify(errors.email, null, 2)} */}
           <form autoComplete="off" noValidate onSubmit={onSubmit}>
             <CustomInput
+              type="text"
+              placeholder="username"
               value={username}
               setValue={setUsername}
               error={error.username}
               className="mb-2"
             />
             <CustomInput
+              type="password"
+              placeholder="password"
               value={password}
               setValue={setPassword}
               error={error.password}

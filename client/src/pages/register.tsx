@@ -34,7 +34,7 @@ const Register = () => {
     }
   };
   return (
-    <div className="flex">
+    <div className="flex bg-white">
       <Head>
         <title>Register</title>
         <link rel="icon" href="/favicon.ico" />
@@ -43,7 +43,7 @@ const Register = () => {
         className="w-40 h-screen bg-center bg-cover"
         style={{ backgroundImage: "url('/images/bricks.jpg')" }}
       ></div>
-      <div className="flex flex-col justify-center pl-6">
+      <div className="flex flex-col justify-center pl-6 ">
         <div className="w-70">
           <h1 className="mb-2 text-lg font-medium">Sign up</h1>
           <p className="mb-10 text-xs">
@@ -64,18 +64,24 @@ const Register = () => {
               </label>
             </div>
             <CustomInput
+              type="email"
+              placeholder="Email"
               value={email}
               setValue={setEmail}
               error={error.email}
               className="mb-2"
             />
             <CustomInput
+              type="text"
+              placeholder="Username"
               value={username}
               setValue={setUsername}
               error={error.username}
               className="mb-2"
             />
             <CustomInput
+              type="password"
+              placeholder="Password"
               value={password}
               setValue={setPassword}
               error={error.password}
