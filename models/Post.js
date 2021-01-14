@@ -34,6 +34,9 @@ const postSchema = new Schema(
       ref: "User",
       required: [true, "User required"],
     },
+    url: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
@@ -41,6 +44,12 @@ const postSchema = new Schema(
 postSchema.pre("validate", function () {
   this.identifier = this.makeId(7);
   this.slug = this.slugify(this.title);
+});
+
+postSchema.post("find", function (doc) {
+  doc.forEach((d) => {
+    d.url = `r/${d.subName}/${d.identifier}/${d.slug}`;
+  });
 });
 
 postSchema.methods = {

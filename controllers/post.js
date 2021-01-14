@@ -27,7 +27,10 @@ module.exports = {
 
   getPosts: async (req, res) => {
     try {
-      const posts = await Post.find().populate("sub").sort({ createdAt: "-1" });
+      const posts = await Post.find()
+        .populate("sub")
+        .populate("user")
+        .sort({ createdAt: "-1" });
       return res.status(200).json(posts);
     } catch (err) {
       console.log(err);
