@@ -1,0 +1,76 @@
+import React, { useState } from "react";
+
+import axios from "axios";
+
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+
+import CustomInput from "../components/CustomInput";
+
+const Login = () => {
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const router = useRouter();
+  const [error, setError] = useState<any>({});
+  const onSubmit = async () => {
+    try {
+      await axios.post("/auth/signin", {
+        username,
+        password,
+      });
+      router.push("/register");
+    } catch (error) {
+      // console.log(error.response.data);
+      if (error && error.response && error.response.data) {
+        setError(error.response.data);
+      }
+    }
+  };
+  return (
+    <div className="flex">
+      <Head>
+        <title>Login</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div
+        className="w-40 h-screen bg-center bg-cover"
+        style={{ backgroundImage: "url('/images/bricks.jpg')" }}
+      ></div>
+      <div className="flex flex-col justify-center pl-6">
+        <div className="w-70">
+          <h1 className="mb-2 text-lg font-medium">Login</h1>
+          <p className="mb-10 text-xs">
+            By continuing, you agree to our User Agreement and Privacy Policy.
+          </p>
+          {/* {JSON.stringify(errors.email, null, 2)} */}
+          <form autoComplete="off" noValidate onSubmit={onSubmit}>
+            <CustomInput
+              value={username}
+              setValue={setUsername}
+              error={error.username}
+              className="mb-2"
+            />
+            <CustomInput
+              value={password}
+              setValue={setPassword}
+              error={error.password}
+              className="mb-2"
+            />
+            <button className="w-full py-2 mb-4 text-xs font-bold text-white uppercase bg-blue-500 border-blue-500 rounded cursor-pointer">
+              Log in
+            </button>
+          </form>
+          <small>
+            New to Reddit?
+            <Link href="/register">
+              <a className="ml-1 font-bold text-blue-500 uppercase">Sign up</a>
+            </Link>
+          </small>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;

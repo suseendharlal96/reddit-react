@@ -34,6 +34,7 @@ module.exports = {
 
   signin: async (req, res) => {
     const { username, password } = req.body;
+    console.log({ username, password });
     const errors = {};
     if (username && username.trim().length === 0)
       errors.username = "Username required";
@@ -42,28 +43,35 @@ module.exports = {
     if (Object.keys(errors).length > 0) {
       return res.status(400).json(errors);
     }
-    const user = await User.findOne({ username: username.trim() });
-    if (!user) errors.username = "Username not found";
-    const passMatch = await bcrypt.compare(password.trim(), user.password);
-    if (!passMatch) errors.password = "Invalid credential";
-    if (Object.keys(errors).length > 0) {
-      return res.status(400).json(errors);
+    try {
+      const user = await User.findOne({ username: username.trim() });
+      console.log(user);
+      if (!user) errors.username = "Username not found";
+      if (user) {
+        const passMatch = await bcrypt.compare(password.trim(), user.password);
+        if (!passMatch) errors.password = "Invalid credential";
+      }
+      if (Object.keys(errors).length > 0) {
+        return res.status(400).json(errors);
+      }
+      const token = jwt.sign({ username }, process.env.SECRET);
+      res.set(
+        "Set-Cookie",
+        cookie.serialize("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          path: "/",
+          sameSite: "strict",
+          maxAge: 3600,
+        })
+      );
+      const actualUser = await User.findOne({ username }).select(
+        "-_id -password"
+      );
+      return res.json(actualUser);
+    } catch (err) {
+      console.log(err);
     }
-    const token = jwt.sign({ username }, process.env.SECRET);
-    res.set(
-      "Set-Cookie",
-      cookie.serialize("token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        path: "/",
-        sameSite: "strict",
-        maxAge: 3600,
-      })
-    );
-    const actualUser = await User.findOne({ username }).select(
-      "-_id -password"
-    );
-    return res.json(actualUser);
   },
 
   logout: (_, res) => {
