@@ -1,6 +1,8 @@
 const Post = require("../models/Post");
 const User = require("../models/User");
 const Subs = require("../models/Subs");
+// const Vote = require("../models/Vote");
+const Comment = require("../models/Comment");
 
 module.exports = {
   createPost: async (req, res) => {
@@ -47,6 +49,89 @@ module.exports = {
     } catch (error) {
       console.log(error);
       return res.status(500).json({ err: "something went wrong" });
+    }
+  },
+
+  vote: async (req, res) => {
+    const { identifier, slug, value, commentIdentifier } = req.body;
+    if (![1, 0, -1].includes(value)) {
+      return res.status(400).json({ value: "Only 1, 0, -1 are allowed" });
+    }
+    try {
+      const user = res.locals.user;
+      const post = await Post.findOne({ identifier, slug });
+      let comment;
+      if (commentIdentifier.trim().length !== 0) {
+        // If there is a comment identifier find vote by comment
+        comment = await Comment.findOne({
+          identifier: commentIdentifier,
+        }).orFail();
+        if (comment.votes.length !== 0) {
+          const index = comment.votes.findIndex(
+            (vote) => vote.username === user.username
+          );
+          if (index !== -1) {
+            if (value === 0) {
+              comment.votes.splice(index, 1);
+            } else {
+              comment.votes[index].value = value;
+            }
+          } else {
+            if (value !== 0) {
+              comment.votes.push({ username: user.username, value });
+            }
+          }
+        } else {
+          if (value === 0) {
+            return res.json({ error: "Vote not found" });
+          } else {
+            comment.votes.push({ username: user.username, value });
+          }
+        }
+        if (comment.votes.length !== 0 && value !== 0) {
+          comment.userVote = value;
+        }
+        await comment.save();
+      } else {
+        // Else find vote by post
+        if (post.votes && post.votes.length !== 0) {
+          const index = post.votes.findIndex(
+            (vote) => vote.username === user.username
+          );
+          if (index !== -1) {
+            if (value === 0) {
+              post.votes.splice(index, 1);
+            } else {
+              post.votes[index].value = value;
+            }
+          } else {
+            if (value !== 0) {
+              post.votes.push({ username: user.username, value });
+            }
+          }
+        } else {
+          if (value === 0) {
+            return res.json({ error: "Vote not found" });
+          } else {
+            post.votes.push({ username: user.username, value });
+          }
+        }
+        if (post.votes.length !== 0 && value !== 0) {
+          post.voteCount = post.votes.reduce(
+            (prev, curr) => prev + (curr.value || 0),
+            0
+          );
+          post.userVote = value;
+        }
+        await post.save();
+      }
+
+      const updatedPost = await Post.findOne({ identifier, slug }).populate(
+        "comments"
+      );
+      return res.json(updatedPost);
+    } catch (err) {
+      console.log(err);
     }
   },
 };

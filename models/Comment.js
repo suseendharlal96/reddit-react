@@ -1,32 +1,41 @@
 const { model, Schema } = require("mongoose");
 
-const commentSchema = new Schema({
-  identifier: {
-    type: String,
-    required: [true, "Identifier required"],
+const commentSchema = new Schema(
+  {
+    identifier: {
+      type: String,
+      required: [true, "Identifier required"],
+    },
+    commentBody: {
+      type: String,
+      required: [true, "comment required"],
+    },
+    username: {
+      type: String,
+      required: [true, "username required"],
+    },
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "user required"],
+    },
+    votes: [
+      {
+        username: { type: String, required: true },
+        value: { type: Number, required: true },
+      },
+    ],
+    userVote: {
+      type: Number,
+    },
   },
-  commentBody: {
-    type: String,
-    required: [true, "comment required"],
-  },
-  username: {
-    type: String,
-    required: [true, "username required"],
-  },
-  post: {
-    type: Schema.Types.ObjectId,
-    ref: "Post",
-    required: [true, "post required"],
-  },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
-    required: [true, "user required"],
-  },
-});
+  { timestamps: true }
+);
 
 commentSchema.pre("validate", function () {
-  this.identifier = this.makeId(8);
+  if (!this.identifier) {
+    this.identifier = this.makeId(8);
+  }
 });
 
 commentSchema.methods = {

@@ -13,8 +13,9 @@ module.exports = {
         commentBody: req.body.body,
         username: user.username,
         user: userObj,
-        post,
       });
+      post.comments.push(comment);
+      await post.save()
       return res.status(201).json(comment);
     } catch (err) {
       console.log(err);

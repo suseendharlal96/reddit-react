@@ -7,7 +7,7 @@ const isAuth = async (req, res, next) => {
   if (!token) return res.status(403).json({ message: "Unauthenticated" });
   const { username } = jwt.verify(token, process.env.SECRET);
   try {
-    const user = await User.findOne({ username }).select("-_id -password");
+    const user = await User.findOne({ username }).select("-password");
     if (!user) return res.status(403).json({ message: "Unauthenticated" });
     res.locals.user = user;
     return next();

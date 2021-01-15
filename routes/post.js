@@ -13,5 +13,6 @@ router.post(
   isAuth,
   commentController.postComment
 );
+router.post("/vote", isAuth, postController.vote);
 
 module.exports = router;

@@ -25,7 +25,7 @@ interface Post {
 export default function Home({ posts }) {
   // const [posts, setPosts] = useState<Post[]>([]);
   const router = useRouter();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   dayjs.extend(relativeTime);
   useEffect(() => {
     const start = () => {
@@ -129,12 +129,13 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           permanent: false,
         },
       };
+    } else {
+      return {
+        props: {
+          posts: res.data,
+        },
+      };
     }
-    return {
-      props: {
-        posts: res.data,
-      },
-    };
   } catch (err) {
     console.log(err);
   }

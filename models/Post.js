@@ -37,13 +37,34 @@ const postSchema = new Schema(
     url: {
       type: String,
     },
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+    votes: [
+      {
+        username: { type: String, required: true },
+        value: { type: Number, required: true },
+      },
+    ],
+    voteCount: {
+      type: Number,
+      default: 0,
+    },
+    userVote: {
+      type: Number,
+    },
   },
   { timestamps: true }
 );
 
 postSchema.pre("validate", function () {
-  this.identifier = this.makeId(7);
-  this.slug = this.slugify(this.title);
+  if (!this.identifier) {
+    this.identifier = this.makeId(7);
+    this.slug = this.slugify(this.title);
+  }
 });
 
 postSchema.post("find", function (doc) {
@@ -51,6 +72,8 @@ postSchema.post("find", function (doc) {
     d.url = `r/${d.subName}/${d.identifier}/${d.slug}`;
   });
 });
+
+
 
 postSchema.methods = {
   makeId(length) {
