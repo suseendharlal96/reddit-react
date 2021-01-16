@@ -29,11 +29,27 @@ module.exports = {
 
   getPosts: async (req, res) => {
     try {
-      const posts = await Post.find()
-        .populate("sub")
-        .populate("user")
-        .sort({ createdAt: "-1" });
-      return res.status(200).json(posts);
+      if (res.locals.user) {
+        const user = res.locals.user;
+        const posts = await Post.find()
+          .populate("sub")
+          .populate("user")
+          .sort({ createdAt: "-1" });
+        posts.forEach((post) => {
+          const index = post.votes.findIndex(
+            (v) => v.username === user.username
+          );
+          post.userVote = index > -1 ? post.votes[index].value : 0;
+        });
+        return res.status(200).json(posts);
+      } else {
+        const posts = await Post.find()
+          .select("-userVote")
+          .populate("sub")
+          .populate("user")
+          .sort({ createdAt: "-1" });
+        return res.status(200).json(posts);
+      }
     } catch (err) {
       console.log(err);
       return res.status(500).json({ err: "something went wrong" });
@@ -66,7 +82,7 @@ module.exports = {
         comment = await Comment.findOne({
           identifier: commentIdentifier,
         }).orFail();
-        if (comment.votes.length !== 0) {
+        if (comment.votes && comment.votes.length !== 0) {
           const index = comment.votes.findIndex(
             (vote) => vote.username === user.username
           );
@@ -89,7 +105,14 @@ module.exports = {
           }
         }
         if (comment.votes.length !== 0 && value !== 0) {
-          comment.userVote = value;
+          comment.voteCount = comment.votes.reduce(
+            (prev, curr) => prev + (curr.value || 0),
+            0
+          );
+          const index = comment.votes.findIndex(
+            (v) => v.username === user.username
+          );
+          comment.userVote = index > -1 ? comment.votes[index].value : 0;
         }
         await comment.save();
       } else {
@@ -121,14 +144,17 @@ module.exports = {
             (prev, curr) => prev + (curr.value || 0),
             0
           );
-          post.userVote = value;
+          const index = post.votes.findIndex(
+            (v) => v.username === user.username
+          );
+          post.userVote = index > -1 ? post.votes[index].value : 0;
         }
         await post.save();
       }
-
       const updatedPost = await Post.findOne({ identifier, slug }).populate(
         "comments"
       );
+
       return res.json(updatedPost);
     } catch (err) {
       console.log(err);

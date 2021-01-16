@@ -1,4 +1,5 @@
 import "../styles/tailwind.css";
+import "../styles/icons.css";
 
 import axios from "axios";
 import React from "react";

@@ -34,8 +34,6 @@ module.exports = {
 
   signin: async (req, res) => {
     const { username, password } = req.body;
-    console.log({ username, password });
-
     try {
       const errors = {};
       if (username && username.trim().length === 0)
@@ -46,7 +44,6 @@ module.exports = {
         return res.status(400).json(errors);
       }
       const user = await User.findOne({ username: username.trim() });
-      console.log(user);
       if (!user) errors.username = "Username not found";
       if (user) {
         const passMatch = await bcrypt.compare(password.trim(), user.password);

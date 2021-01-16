@@ -43,6 +43,9 @@ const postSchema = new Schema(
         ref: "Comment",
       },
     ],
+    commentCount: {
+      type: Number,
+    },
     votes: [
       {
         username: { type: String, required: true },
@@ -70,10 +73,9 @@ postSchema.pre("validate", function () {
 postSchema.post("find", function (doc) {
   doc.forEach((d) => {
     d.url = `r/${d.subName}/${d.identifier}/${d.slug}`;
+    d.commentCount = d.comments.length;
   });
 });
-
-
 
 postSchema.methods = {
   makeId(length) {
