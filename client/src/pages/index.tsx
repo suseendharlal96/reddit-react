@@ -2,24 +2,27 @@ import React, { useEffect, useState } from "react";
 import Head from "next/head";
 
 import axios from "axios";
+import useSWR from "swr";
 
 import PostCard from "../components/PostCard";
 
 export default function Home() {
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    const getPosts = async () => {
-      try {
-        const res = await axios.get("/post");
-        console.log(res.data);
-        setPosts(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getPosts();
-  }, []);
+  const { data: posts } = useSWR("/post");
+
+  // useEffect(() => {
+  //   const getPosts = async () => {
+  //     try {
+  //       const res = await axios.get("/post");
+  //       console.log(res.data);
+  //       setPosts(res.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   getPosts();
+  // }, []);
 
   // useEffect(() => {
   //   const start = () => {
@@ -44,9 +47,9 @@ export default function Home() {
       <Head>
         <title>reddit: the front page of the internet</title>
       </Head>
-      <div className="container flex pt-12 mt-4">
+      <div className="container flex">
         <div className="w-160">
-          {posts.map((post, index: number) => (
+          {posts?.map((post, index: number) => (
             <PostCard key={index} post={post} />
           ))}
         </div>

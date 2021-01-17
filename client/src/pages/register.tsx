@@ -13,10 +13,9 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [agreement, setAgreement] = useState(false);
-  const router = useRouter();
   const { authenticated } = useAuthState();
-  if (authenticated) router.push("/");
   const router = useRouter();
+  if (authenticated) router.push("/");
   const [error, setError] = useState<any>({});
   const onSubmit = async (e) => {
     e.preventDefault();

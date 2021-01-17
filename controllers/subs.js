@@ -1,3 +1,4 @@
+const Post = require("../models/Post");
 const Subs = require("../models/Subs");
 const User = require("../models/User");
 
@@ -27,6 +28,29 @@ module.exports = {
       return res.status(201).json(newSub);
     } catch (error) {
       console.log(error);
+      return res.status(500).json({ error: "Something went wrong" });
+    }
+  },
+
+  getSubs: async (req, res) => {
+    const name = req.params.name;
+    try {
+      const sub = await Subs.findOne({ name }).orFail();
+      // console.log(sub)
+      const posts = await Post.find({ subName: name })
+        .populate("comments").populate('user')
+        .sort({ createdAt: "-1" });
+      if (res.locals.user) {
+        const user = res.locals.user;
+        posts.forEach((post) => {
+          const index = post.votes.findIndex(
+            (v) => v.username === user.username
+          );
+          post.userVote = index > -1 ? post.votes[index].value : 0;
+        });
+      }
+      return res.status(200).json(posts);
+    } catch (error) {
       return res.status(500).json({ error: "Something went wrong" });
     }
   },
