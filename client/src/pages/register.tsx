@@ -1,19 +1,21 @@
 import { useState } from "react";
-
-import axios from "axios";
-
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
+import axios from "axios";
+
 import CustomInput from "../components/CustomInput";
+import { useAuthState } from "../context/auth";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [agreement, setAgreement] = useState(false);
-  // console.log(errors);
-  // console.log({ agreement, email, username, password });
+  const router = useRouter();
+  const { authenticated } = useAuthState();
+  if (authenticated) router.push("/");
   const router = useRouter();
   const [error, setError] = useState<any>({});
   const onSubmit = async (e) => {

@@ -7,19 +7,23 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import CustomInput from "../components/CustomInput";
-
+import { useAuthState, useAuthDispatch } from "../context/auth";
 const Login = () => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const router = useRouter();
   const [error, setError] = useState<any>({});
+  const dispatch = useAuthDispatch();
+  const { authenticated } = useAuthState();
+  if (authenticated) router.push("/");
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/auth/signin", {
+      const res = await axios.post("/auth/signin", {
         username,
         password,
       });
+      dispatch("LOGIN", res.data);
       router.push("/");
     } catch (error) {
       if (error && error.response && error.response.data) {

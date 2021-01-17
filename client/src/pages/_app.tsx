@@ -7,6 +7,7 @@ import { AppProps } from "next/app";
 import { useRouter } from "next/router";
 
 import Navbar from "../components/Navbar";
+import { AuthProvider } from "../context/auth";
 
 axios.defaults.baseURL = "http://localhost:5000/api/";
 axios.defaults.withCredentials = true;
@@ -16,10 +17,10 @@ function App({ Component, pageProps }: AppProps) {
   const authRoute = ["/register", "/login"];
   const isAuthRoute = authRoute.includes(pathname);
   return (
-    <React.Fragment>
+    <AuthProvider>
       {!isAuthRoute && <Navbar />}
       <Component {...pageProps} />;
-    </React.Fragment>
+    </AuthProvider>
   );
 }
 

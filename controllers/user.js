@@ -85,4 +85,8 @@ module.exports = {
     );
     return res.status(200).json({ success: "Logout success" });
   },
+
+  me: (_, res) => {
+    return res.json(res.locals.user);
+  },
 };

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 
 import axios from "axios";
 
@@ -9,8 +7,6 @@ import PostCard from "../components/PostCard";
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
-  const router = useRouter();
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getPosts = async () => {

@@ -7,7 +7,7 @@ const isUser = require("../middleware/user");
 
 router.post("/signup", userController.signup);
 router.post("/signin", userController.signin);
-// router.get("/isAuth", isAuth);
+router.get("/me", isUser, isAuth, userController.me);
 router.get("/logout", isUser, isAuth, userController.logout);
 
 module.exports = router;
