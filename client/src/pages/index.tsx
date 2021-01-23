@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 
-import axios from "axios";
 import useSWR from "swr";
 
 import PostCard from "../components/PostCard";

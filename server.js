@@ -23,6 +23,8 @@ app.use(
 );
 app.use(cookieParser());
 
+app.use(express.static("public"));
+
 app.use("/api/auth", userRoute);
 app.use("/api/post", postRoute);
 app.use("/api/subs", subsRoute);

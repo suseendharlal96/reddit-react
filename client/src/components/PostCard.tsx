@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import dayjs from "dayjs";
 import axios from "axios";
-import classNames from "classNames";
+import classNames from "classnames";
 
 import relativeTime from "dayjs/plugin/relativeTime";
 
