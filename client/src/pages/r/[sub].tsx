@@ -9,6 +9,7 @@ import axios from "axios";
 
 import PostCard from "../../components/PostCard";
 import { useAuthState } from "../../context/auth";
+import AboutSub from "../../components/AboutSub";
 
 const Sub = () => {
   const [subCreator, setSubCreator] = useState(false);
@@ -34,7 +35,6 @@ const Sub = () => {
 
   const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files[0];
-    console.log(e.target.name);
     const formData = new FormData();
     formData.append("file", file);
     formData.append("type", e.target.name);
@@ -44,7 +44,6 @@ const Sub = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      console.log(res);
       if (res) {
         revalidate();
       }
@@ -137,6 +136,7 @@ const Sub = () => {
       )}
       <div className="container flex pt-5">
         {data?.posts && <div className="w-160">{postData}</div>}
+        <AboutSub sub={data?.sub} />
       </div>
     </div>
   );

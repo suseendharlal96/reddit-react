@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
 import Head from "next/head";
 
 import useSWR from "swr";
 
 import PostCard from "../components/PostCard";
+import TopSubs from "../components/TopSubs";
 
 export default function Home() {
   // const [posts, setPosts] = useState([]);
 
   const { data: posts } = useSWR("/post");
+  const { data: subs } = useSWR("/subs");
 
   // useEffect(() => {
   //   const getPosts = async () => {
@@ -51,6 +52,16 @@ export default function Home() {
           {posts?.map((post, index: number) => (
             <PostCard key={index} post={post} />
           ))}
+        </div>
+        <div className="ml-6 w-80">
+          <div className="bg-white rounded">
+            <div className="p-4 border-b-2">
+              <p className="text-lg font-semibold text-center">
+                Top Communities
+              </p>
+            </div>
+            <TopSubs subs={subs} />
+          </div>
         </div>
       </div>
     </div>

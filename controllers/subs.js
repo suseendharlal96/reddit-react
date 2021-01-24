@@ -37,7 +37,7 @@ module.exports = {
   getSubs: async (req, res) => {
     const name = req.params.name;
     try {
-      const subs = await Subs.find({ name }).populate('user').orFail();
+      const subs = await Subs.find({ name }).populate("user").orFail();
       // console.log(sub)
       const posts = await Post.find({ subName: name })
         .populate("comments")
@@ -55,6 +55,20 @@ module.exports = {
       return res.status(200).json({ sub: subs[0], posts });
     } catch (error) {
       return res.status(500).json({ error: "Something went wrong" });
+    }
+  },
+
+  getTopSubs: async (req, res) => {
+    console.log("asd");
+    try {
+      const subs = await Subs.find().select("-_id title name imageUrn");
+      // const posts = await Post.find();
+      // subs.forEach((sub) => {
+
+      // });
+      return res.status(200).json(subs);
+    } catch (err) {
+      console.log(err);
     }
   },
 

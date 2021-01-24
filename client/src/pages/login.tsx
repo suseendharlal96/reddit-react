@@ -24,7 +24,7 @@ const Login = () => {
         password,
       });
       dispatch("LOGIN", res.data);
-      router.push("/");
+      router.back();
     } catch (error) {
       if (error && error.response && error.response.data) {
         setError(error.response.data);
