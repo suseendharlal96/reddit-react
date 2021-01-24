@@ -4,7 +4,7 @@ const subsSchema = new Schema(
   {
     name: {
       type: String,
-      lowercase:true,
+      lowercase: true,
       required: [true, "Sub name required"],
     },
     title: {
@@ -20,6 +20,12 @@ const subsSchema = new Schema(
     bannerUrn: {
       type: String,
     },
+    imageUrl: {
+      type: String,
+    },
+    bannerUrl: {
+      type: String,
+    },
     user: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -28,5 +34,16 @@ const subsSchema = new Schema(
   },
   { timestamps: true }
 );
+
+subsSchema.post("find", function (doc) {
+  doc.forEach((d) => {
+    d.imageUrl = d.imageUrn
+      ? `${process.env.APP_URL}/images/${d.imageUrn}`
+      : "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
+    d.bannerUrl = d.bannerUrn
+      ? `${process.env.APP_URL}/images/${d.bannerUrn}`
+      : undefined;
+  });
+});
 
 module.exports = model("Subs", subsSchema);

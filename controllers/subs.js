@@ -37,7 +37,7 @@ module.exports = {
   getSubs: async (req, res) => {
     const name = req.params.name;
     try {
-      await Subs.findOne({ name }).orFail();
+      const subs = await Subs.find({ name }).populate('user').orFail();
       // console.log(sub)
       const posts = await Post.find({ subName: name })
         .populate("comments")
@@ -52,7 +52,7 @@ module.exports = {
           post.userVote = index > -1 ? post.votes[index].value : 0;
         });
       }
-      return res.status(200).json(posts);
+      return res.status(200).json({ sub: subs[0], posts });
     } catch (error) {
       return res.status(500).json({ error: "Something went wrong" });
     }
@@ -63,9 +63,23 @@ module.exports = {
     try {
       const sub = await Subs.findOne({ name: passedSub.name });
       const type = req.body.type;
-      const filePath = req.file.path; //filepath is added by multer which is middleware
+      if (!req.file) {
+        let oldImageUrn = "";
+        if (type === "image") {
+          oldImageUrn = sub.imageUrn;
+          sub.imageUrn = null;
+        } else if (type === "banner") {
+          oldImageUrn = sub.bannerUrn;
+          sub.bannerUrn = null;
+        }
+        if (oldImageUrn) {
+          fs.unlinkSync(`public/images/${oldImageUrn}`);
+        }
+        await sub.save();
+        return res.json(sub);
+      }
       if (type !== "image" && type !== "banner") {
-        fs.unlinkSync(filePath);
+        fs.unlinkSync(req.file.path);
         return res.status(400).json({ error: "Invalid type" });
       }
       let oldImageUrn = "";
