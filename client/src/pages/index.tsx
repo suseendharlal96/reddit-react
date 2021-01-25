@@ -8,7 +8,7 @@ import TopSubs from "../components/TopSubs";
 export default function Home() {
   // const [posts, setPosts] = useState([]);
 
-  const { data: posts } = useSWR("/post");
+  const { data: posts, revalidate } = useSWR("/post");
   const { data: subs } = useSWR("/subs");
 
   // useEffect(() => {
@@ -50,7 +50,7 @@ export default function Home() {
       <div className="container flex">
         <div className="w-160">
           {posts?.map((post, index: number) => (
-            <PostCard key={index} post={post} />
+            <PostCard key={index} post={post} revalidate={revalidate} />
           ))}
         </div>
         <div className="ml-6 w-80">

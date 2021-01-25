@@ -8,7 +8,7 @@ const commentController = require("../controllers/comment");
 
 router.get("/", isUser, postController.getPosts);
 router.post("/createPost", isUser, isAuth, postController.createPost);
-router.get("/:identifier/:slug", postController.getPost);
+router.get("/:identifier/:slug", isUser, postController.getPost);
 router.post(
   "/:identifier/:slug/comment",
   isUser,

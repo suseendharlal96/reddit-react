@@ -40,6 +40,10 @@ module.exports = {
             (v) => v.username === user.username
           );
           post.userVote = index > -1 ? post.votes[index].value : 0;
+          post.voteCount = post.votes.reduce(
+            (prev, curr) => prev + (curr.value || 0),
+            0
+          );
         });
         return res.status(200).json(posts);
       } else {
@@ -59,9 +63,19 @@ module.exports = {
   getPost: async (req, res) => {
     const { identifier, slug } = req.params;
     try {
-      const post = await Post.find({ slug, identifier }).populate("sub");
+      const post = await Post.find({ slug, identifier })
+        .populate("sub")
+        .populate("user");
       if (!post) return res.status(404).json({ error: "Post not found" });
-      return res.status(200).json(post);
+      if (res.locals.user) {
+        const index = post[0].votes.findIndex((v) => v.username === user.username);
+        post[0].userVote = index > -1 ? post[0].votes[index].value : 0;
+      }
+      post[0].voteCount = post[0].votes.reduce(
+        (prev, curr) => prev + (curr.value || 0),
+        0
+      );
+      return res.status(200).json(post[0]);
     } catch (error) {
       console.log(error);
       return res.status(500).json({ err: "something went wrong" });
@@ -104,7 +118,7 @@ module.exports = {
             comment.votes.push({ username: user.username, value });
           }
         }
-        if (comment.votes.length !== 0 && value !== 0) {
+        if (comment.votes.length !== 0) {
           comment.voteCount = comment.votes.reduce(
             (prev, curr) => prev + (curr.value || 0),
             0
@@ -139,7 +153,7 @@ module.exports = {
             post.votes.push({ username: user.username, value });
           }
         }
-        if (post.votes.length !== 0 && value !== 0) {
+        if (post.votes.length !== 0) {
           post.voteCount = post.votes.reduce(
             (prev, curr) => prev + (curr.value || 0),
             0

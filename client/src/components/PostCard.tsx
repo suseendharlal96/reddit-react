@@ -1,21 +1,20 @@
 import Link from "next/link";
-import React from "react";
-import dayjs from "dayjs";
-import axios from "axios";
 import classNames from "classnames";
+import axios from "axios";
 
+import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-const ActionButton = ({ children }) => (
-  <div className="px-1 py-1 mr-2 text-xs text-gray-400 rounded cursor-pointer hover:bg-gray-200">
-    {children}
-  </div>
-);
+import { useAuthState } from "../context/auth";
+import { useRouter } from "next/router";
+
+import ActionButton from "./ActionButton";
 
 interface Post {
   title: string;
   identifier: string;
   slug: string;
+  sub: any;
   subName: string;
   body: string | undefined;
   createdAt: string;
@@ -28,6 +27,7 @@ interface Post {
 
 interface PostProps {
   post: Post;
+  revalidate: () => void;
 }
 
 const PostCard = ({
@@ -35,6 +35,7 @@ const PostCard = ({
     title,
     identifier,
     slug,
+    sub,
     subName,
     body,
     createdAt,
@@ -44,10 +45,15 @@ const PostCard = ({
     voteCount,
     userVote,
   },
+  revalidate,
 }: PostProps) => {
   dayjs.extend(relativeTime);
+  const router = useRouter();
+  const { authenticated } = useAuthState();
 
   const vote = async (value: number, commentIdentifier: string) => {
+    if (!authenticated) return router.push("/login");
+    if (value === userVote) value = 0;
     try {
       const res = await axios.post("/post/vote", {
         identifier,
@@ -90,7 +96,7 @@ const PostCard = ({
         <div className="flex items-center">
           <Link href={`/r/${subName}`}>
             <img
-              src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+              src={sub.imageUrl}
               alt="img"
               className="w-6 h-6 mr-1 rounded-full cursor-pointer"
             />

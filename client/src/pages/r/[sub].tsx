@@ -60,7 +60,7 @@ const Sub = () => {
     postData = <p className="text-lg text-center">No posts under this sub.</p>;
   } else {
     postData = data?.posts.map((post) => (
-      <PostCard key={post._id} post={post} />
+      <PostCard key={post._id} post={post} revalidate={revalidate} />
     ));
   }
   return (
