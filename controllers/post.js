@@ -52,6 +52,12 @@ module.exports = {
           .populate("sub")
           .populate("user")
           .sort({ createdAt: "-1" });
+        posts.forEach((post) => {
+          post.voteCount = post.votes.reduce(
+            (prev, curr) => prev + (curr.value || 0),
+            0
+          );
+        });
         return res.status(200).json(posts);
       }
     } catch (err) {
@@ -65,16 +71,31 @@ module.exports = {
     try {
       const post = await Post.find({ slug, identifier })
         .populate("sub")
-        .populate("user");
+        .populate("user")
+        .populate("comments");
       if (!post) return res.status(404).json({ error: "Post not found" });
       if (res.locals.user) {
-        const index = post[0].votes.findIndex((v) => v.username === user.username);
+        const index = post[0].votes.findIndex(
+          (v) => v.username === res.locals.user.username
+        );
         post[0].userVote = index > -1 ? post[0].votes[index].value : 0;
+        post[0].comments.forEach((comment) => {
+          const index = comment.votes.findIndex(
+            (v) => v.username === res.locals.user.username
+          );
+          comment.userVote = index > -1 ? comment.votes[index].value : 0;
+        });
       }
       post[0].voteCount = post[0].votes.reduce(
         (prev, curr) => prev + (curr.value || 0),
         0
       );
+      post[0].comments.forEach((comment) => {
+        comment.voteCount = comment.votes.reduce(
+          (prev, curr) => prev + (curr.value || 0),
+          0
+        );
+      });
       return res.status(200).json(post[0]);
     } catch (error) {
       console.log(error);
@@ -119,14 +140,14 @@ module.exports = {
           }
         }
         if (comment.votes.length !== 0) {
-          comment.voteCount = comment.votes.reduce(
-            (prev, curr) => prev + (curr.value || 0),
-            0
-          );
-          const index = comment.votes.findIndex(
-            (v) => v.username === user.username
-          );
-          comment.userVote = index > -1 ? comment.votes[index].value : 0;
+          // comment.voteCount = comment.votes.reduce(
+          //   (prev, curr) => prev + (curr.value || 0),
+          //   0
+          // );
+          // const index = comment.votes.findIndex(
+          //   (v) => v.username === user.username
+          // );
+          // comment.userVote = index > -1 ? comment.votes[index].value : 0;
         }
         await comment.save();
       } else {
@@ -154,14 +175,14 @@ module.exports = {
           }
         }
         if (post.votes.length !== 0) {
-          post.voteCount = post.votes.reduce(
-            (prev, curr) => prev + (curr.value || 0),
-            0
-          );
-          const index = post.votes.findIndex(
-            (v) => v.username === user.username
-          );
-          post.userVote = index > -1 ? post.votes[index].value : 0;
+          // post.voteCount = post.votes.reduce(
+          //   (prev, curr) => prev + (curr.value || 0),
+          //   0
+          // );
+          // const index = post.votes.findIndex(
+          //   (v) => v.username === user.username
+          // );
+          // post.userVote = index > -1 ? post.votes[index].value : 0;
         }
         await post.save();
       }

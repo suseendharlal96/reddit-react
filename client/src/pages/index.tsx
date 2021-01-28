@@ -50,7 +50,12 @@ export default function Home() {
       <div className="container flex">
         <div className="w-160">
           {posts?.map((post, index: number) => (
-            <PostCard key={index} post={post} revalidate={revalidate} />
+            <PostCard
+              key={index}
+              post={post}
+              imageUrl={post.sub.imageUrl}
+              revalidate={revalidate}
+            />
           ))}
         </div>
         <div className="ml-6 w-80">

@@ -25,6 +25,10 @@ const commentSchema = new Schema(
         value: { type: Number, required: true },
       },
     ],
+    voteCount: {
+      type: Number,
+      default: 0,
+    },
     userVote: {
       type: Number,
     },

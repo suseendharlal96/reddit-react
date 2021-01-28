@@ -28,6 +28,7 @@ interface Post {
 interface PostProps {
   post: Post;
   revalidate: () => void;
+  imageUrl: string;
 }
 
 const PostCard = ({
@@ -45,6 +46,7 @@ const PostCard = ({
     voteCount,
     userVote,
   },
+  imageUrl,
   revalidate,
 }: PostProps) => {
   dayjs.extend(relativeTime);
@@ -61,6 +63,7 @@ const PostCard = ({
         value,
         commentIdentifier,
       });
+      revalidate();
       console.log(res.data);
     } catch (err) {
       console.log(err);
@@ -96,7 +99,7 @@ const PostCard = ({
         <div className="flex items-center">
           <Link href={`/r/${subName}`}>
             <img
-              src={sub.imageUrl}
+              src={imageUrl}
               alt="img"
               className="w-6 h-6 mr-1 rounded-full cursor-pointer"
             />

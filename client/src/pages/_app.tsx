@@ -31,6 +31,7 @@ function App({ Component, pageProps }: AppProps) {
       value={{
         fetcher,
         dedupingInterval: 10000,
+        refreshInterval: 1000,
       }}
     >
       <AuthProvider>

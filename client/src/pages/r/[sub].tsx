@@ -60,7 +60,7 @@ const Sub = () => {
     postData = <p className="text-lg text-center">No posts under this sub.</p>;
   } else {
     postData = data?.posts.map((post) => (
-      <PostCard key={post._id} post={post} revalidate={revalidate} />
+      <PostCard key={post._id} post={post} imageUrl={data?.sub?.imageUrl} revalidate={revalidate} />
     ));
   }
   return (
@@ -86,7 +86,7 @@ const Sub = () => {
             >
               {data?.sub?.bannerUrl ? (
                 <div
-                  className="h-40 bg-blue-500"
+                  className="h-32 bg-blue-500"
                   style={{
                     backgroundImage: `url(${data?.sub?.bannerUrl})`,
                     backgroundRepeat: "no-repeat",
