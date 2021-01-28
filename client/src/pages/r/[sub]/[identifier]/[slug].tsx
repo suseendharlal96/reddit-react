@@ -1,3 +1,4 @@
+import { ChangeEvent, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,12 +14,15 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import AboutSub from "../../../../components/AboutSub";
 import ActionButton from "../../../../components/ActionButton";
 import { useAuthState } from "../../../../context/auth";
+// import { ChangeEvent } from "react";
 
 const PostPage = () => {
   dayjs.extend(relativeTime);
   const router = useRouter();
   const { identifier, sub, slug } = router.query;
-  const { authenticated } = useAuthState();
+  const { authenticated, user } = useAuthState();
+  const [newComment, setNewComment] = useState("");
+
   const { data: post, error, revalidate } = useSWR(
     identifier && slug ? `/post/${identifier}/${slug}` : null
   );
@@ -26,7 +30,7 @@ const PostPage = () => {
 
   const vote = async (value: number, comment: any) => {
     if (!authenticated) return router.push("/login");
-    if ((!comment && value === post.userVote) || (value === comment.userVote))
+    if ((!comment && value === post.userVote) || value === comment.userVote)
       value = 0;
     try {
       const res = await axios.post("/post/vote", {
@@ -39,6 +43,23 @@ const PostPage = () => {
       revalidate();
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const submitComment = async (e) => {
+    e.preventDefault();
+    if (newComment.trim() === "") return;
+    try {
+      const res = await axios.post(`/post/${identifier}/${slug}/comment`, {
+        body: newComment,
+      });
+      console.log(res);
+      if (res) {
+        setNewComment("");
+      }
+      revalidate();
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -136,6 +157,52 @@ const PostPage = () => {
                     </div>
                   </div>
                 </div>
+                <div className="pl-10 pr-6 mb-4">
+                  {authenticated ? (
+                    <div>
+                      <p className="mb-1 text-xs">
+                        Comment as
+                        <Link href={`/u/${user.username}`}>
+                          <a className="font-semibold text-blue-500">
+                            {" " + user.username}
+                          </a>
+                        </Link>
+                      </p>
+                      <form onSubmit={submitComment}>
+                        <textarea
+                          onChange={(e) => setNewComment(e.target.value)}
+                          value={newComment}
+                          className="w-full p-3 border border-gray-300 rounded cur focus:outline-none focus:border-gray-600"
+                        />
+                        <div className="flex justify-end">
+                          <button
+                            type="submit"
+                            className="px-3 py-1 blue button"
+                            disabled={newComment.trim() === ""}
+                          >
+                            Comment
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between px-2 py-4 border border-gray-300 rounded">
+                      <p className="font-semibold text-gray-500">
+                        Login or Signup to leave a comment
+                      </p>
+                      <div>
+                        <Link href="/login">
+                          <a className="px-4 py-1 mr-4 outlined blue button">
+                            Login
+                          </a>
+                        </Link>
+                        <Link href="/register">
+                          <a className="px-4 py-1 blue button">Signup</a>
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <hr />
                 {post.comments &&
                   post.comments.length > 0 &&
@@ -152,9 +219,7 @@ const PostPage = () => {
                             })}
                           ></i>
                         </div>
-                        <p className="text-xs font-bold">
-                          {comment.voteCount}
-                        </p>
+                        <p className="text-xs font-bold">{comment.voteCount}</p>
                         <div
                           onClick={() => vote(-1, comment)}
                           className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
