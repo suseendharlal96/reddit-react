@@ -50,6 +50,17 @@ module.exports = {
             (v) => v.username === user.username
           );
           post.userVote = index > -1 ? post.votes[index].value : 0;
+          post.voteCount = post.votes.reduce(
+            (prev, curr) => prev + (curr.value || 0),
+            0
+          );
+        });
+      } else {
+        posts.forEach((post) => {
+          post.voteCount = post.votes.reduce(
+            (prev, curr) => prev + (curr.value || 0),
+            0
+          );
         });
       }
       return res.status(200).json({ sub: subs[0], posts });
@@ -59,7 +70,6 @@ module.exports = {
   },
 
   getTopSubs: async (req, res) => {
-    console.log("asd");
     try {
       const subs = await Subs.find().select("-_id title name imageUrn");
       // const posts = await Post.find();
