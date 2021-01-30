@@ -39,7 +39,7 @@ module.exports = {
     try {
       const subs = await Subs.find({ name }).populate("user").orFail();
       // console.log(sub)
-      const posts = await Post.find({ subName: name })
+      const posts = await Post.find({ sub: subs[0] })
         .populate("comments")
         .populate("user")
         .sort({ createdAt: "-1" });
@@ -79,6 +79,20 @@ module.exports = {
       return res.status(200).json(subs);
     } catch (err) {
       console.log(err);
+    }
+  },
+
+  searchSubs: async (req, res) => {
+    try {
+      const name = req.params.name;
+      if (name.trim() === "") {
+        return res.status(400).json({ error: "Name must not be empty" });
+      }
+      const subs = await Subs.find({ name: { $regex: "^" + name } });
+      return res.status(200).json(subs);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ error: "Something went wrong" });
     }
   },
 

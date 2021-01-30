@@ -43,6 +43,7 @@ const makeId = (length) => {
 router.post("/createSubs", isUser, isAuth, subsController.createSub);
 router.get("/:name", isUser, subsController.getSubs);
 router.get("/", subsController.getTopSubs);
+router.get("/search/:name", subsController.searchSubs);
 router.post(
   "/:name/image",
   isUser,

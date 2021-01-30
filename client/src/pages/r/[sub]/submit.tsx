@@ -1,10 +1,11 @@
 import { useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+
 import useSWR from "swr";
+import axios from "axios";
 
 import AboutSub from "../../../components/AboutSub";
-import axios from "axios";
 
 const Submit = () => {
   const [title, setTitle] = useState("");
@@ -77,3 +78,16 @@ const Submit = () => {
 };
 
 export default Submit;
+
+export const getServerSideProps = async ({ req, res }) => {
+  try {
+    const cookie = req.headers.cookie;
+    if (!cookie) throw new Error("Cookie missing");
+    await axios.get("/auth/me", { headers: { cookie } });
+    return {
+      props: {},
+    };
+  } catch (error) {
+    res.writeHead(307, { Location: "/login" }).end();
+  }
+};
