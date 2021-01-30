@@ -27,6 +27,65 @@ module.exports = {
     }
   },
 
+  getUserData: async (req, res) => {
+    const user = await User.findOne({ username: req.params.username }).select(
+      "-password"
+    );
+    try {
+      const posts = await Post.find({ user })
+        .populate("sub")
+        .populate("user")
+        .sort({ createdAt: "-1" });
+      const comments = await Comment.find({ user })
+        .populate("post")
+        .sort({ createdAt: "-1" });
+      const submissions = [];
+      if (res.locals.user) {
+        const user = res.locals.user;
+        posts.forEach((post) => {
+          const index = post.votes.findIndex(
+            (v) => v.username === user.username
+          );
+          post.userVote = index > -1 ? post.votes[index].value : 0;
+          post.voteCount = post.votes.reduce(
+            (prev, curr) => prev + (curr.value || 0),
+            0
+          );
+        });
+        comments.forEach((comment) => {
+          const index = comment.votes.findIndex(
+            (v) => v.username === user.username
+          );
+          comment.userVote = index > -1 ? comment.votes[index].value : 0;
+          comment.voteCount = comment.votes.reduce(
+            (prev, curr) => prev + (curr.value || 0),
+            0
+          );
+        });
+
+        submissions.push(...posts, ...comments);
+        return res.status(200).json({ submissions, user });
+      } else {
+        posts.forEach((post) => {
+          post.voteCount = post.votes.reduce(
+            (prev, curr) => prev + (curr.value || 0),
+            0
+          );
+        });
+        comments.forEach((comment) => {
+          comment.voteCount = comment.votes.reduce(
+            (prev, curr) => prev + (curr.value || 0),
+            0
+          );
+        });
+        submissions.push(...posts, ...comments);
+        return res.status(200).json({ submissions, user });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  },
+
   getPosts: async (req, res) => {
     try {
       if (res.locals.user) {

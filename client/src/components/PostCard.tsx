@@ -122,12 +122,12 @@ const PostCard = ({
             </Link>
           </p>
         </div>
-        <Link href={url}>
+        <Link href={`/r/${subName}/${identifier}/${slug}`}>
           <a className="my-1 text-lg font-medium">{title}</a>
         </Link>
         {body && <p className="my-1 text-sm">{body}</p>}
         <div className="flex">
-          <Link href={url}>
+          <Link href={`/r/${subName}/${identifier}/${slug}`}>
             <a>
               <ActionButton>
                 <i className="mr-1 fas fa-comment-alt fa-xs"></i>

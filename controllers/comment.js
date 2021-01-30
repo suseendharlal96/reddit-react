@@ -9,14 +9,19 @@ module.exports = {
       const post = await Post.findOne({ identifier, slug }).orFail();
       const user = res.locals.user;
       const userObj = await User.findOne({ username: user.username });
-      const comment = await Comment.create({
-        commentBody: req.body.body,
-        username: user.username,
-        user: userObj,
-      });
-      post.comments.push(comment);
-      await post.save()
-      return res.status(201).json(comment);
+      if (post) {
+        const comment = await Comment.create({
+          commentBody: req.body.body,
+          username: user.username,
+          user: userObj,
+          post,
+        });
+        if (comment) {
+          post.comments.push(comment);
+          await post.save();
+        }
+        return res.status(201).json(comment);
+      }
     } catch (err) {
       console.log(err);
       return res.status(404).json({ err: "Post not found" });

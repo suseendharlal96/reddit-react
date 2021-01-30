@@ -19,6 +19,11 @@ const commentSchema = new Schema(
       ref: "User",
       required: [true, "user required"],
     },
+    post: {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+      required: [true, "post required"],
+    },
     votes: [
       {
         username: { type: String, required: true },
