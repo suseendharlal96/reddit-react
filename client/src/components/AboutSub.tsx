@@ -27,7 +27,13 @@ const AboutSub = ({ sub }) => {
         </div>
         <p className="my-3">
           <i className="mr-2 fas fa-birthday-cake"></i>
-          Created {dayjs(sub?.createdAt).format("D MMM YYYY")}
+          Created by
+          <Link href={`/u/${sub?.user.username}`}>
+            <a className="font-bold cursor-pointer hover:underline">
+              {" " + sub?.user.username + " "}
+            </a>
+          </Link>
+          on {dayjs(sub?.createdAt).format("D MMM YYYY")}
         </p>
         {authenticated && (
           <Link href={`/r/${sub?.name}/submit`}>

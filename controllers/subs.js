@@ -7,6 +7,7 @@ const User = require("../models/User");
 module.exports = {
   createSub: async (req, res) => {
     const { name, title, description } = req.body;
+    console.log(description);
     const errors = {};
     if (name.trim() === "") errors.name = "Name is required";
     if (title.trim() === "") errors.title = "Title is required";
@@ -17,7 +18,7 @@ module.exports = {
     try {
       const userObj = await User.findOne({ username: user.username });
       const oldSub = await Subs.findOne({ name: name.toLowerCase() });
-      if (oldSub) errors.sub = `Community with ${name} already exists`;
+      if (oldSub) errors.sub = `Community with name '${name}' already exists`;
       if (Object.keys(errors).length > 0) {
         return res.status(400).json(errors);
       }
@@ -85,7 +86,7 @@ module.exports = {
   searchSubs: async (req, res) => {
     try {
       const name = req.params.name;
-      console.log(req.params)
+      console.log(req.params);
       if (!req.params) {
         return res.status(400).json({ error: "Name must not be empty" });
       }
