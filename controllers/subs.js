@@ -17,7 +17,7 @@ module.exports = {
     try {
       const userObj = await User.findOne({ username: user.username });
       const oldSub = await Subs.findOne({ name: name.toLowerCase() });
-      if (oldSub) errors.sub = "Sub already exists";
+      if (oldSub) errors.sub = `Community with ${name} already exists`;
       if (Object.keys(errors).length > 0) {
         return res.status(400).json(errors);
       }
@@ -85,7 +85,11 @@ module.exports = {
   searchSubs: async (req, res) => {
     try {
       const name = req.params.name;
-      if (name.trim() === "") {
+      console.log(req.params)
+      if (!req.params) {
+        return res.status(400).json({ error: "Name must not be empty" });
+      }
+      if (!name) {
         return res.status(400).json({ error: "Name must not be empty" });
       }
       const subs = await Subs.find({ name: { $regex: "^" + name } });
