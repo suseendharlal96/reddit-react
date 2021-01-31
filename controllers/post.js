@@ -28,7 +28,7 @@ module.exports = {
   },
 
   getUserData: async (req, res) => {
-    const user = await User.findOne({ username: req.params.username }).select(
+    const user = await User.find({ username: req.params.username }).select(
       "-password"
     );
     try {
@@ -41,10 +41,10 @@ module.exports = {
         .sort({ createdAt: "-1" });
       const submissions = [];
       if (res.locals.user) {
-        const user = res.locals.user;
+        const loggeduser = res.locals.user;
         posts.forEach((post) => {
           const index = post.votes.findIndex(
-            (v) => v.username === user.username
+            (v) => v.username === loggeduser.username
           );
           post.userVote = index > -1 ? post.votes[index].value : 0;
           post.voteCount = post.votes.reduce(
@@ -54,7 +54,7 @@ module.exports = {
         });
         comments.forEach((comment) => {
           const index = comment.votes.findIndex(
-            (v) => v.username === user.username
+            (v) => v.username === loggeduser.username
           );
           comment.userVote = index > -1 ? comment.votes[index].value : 0;
           comment.voteCount = comment.votes.reduce(
@@ -64,7 +64,7 @@ module.exports = {
         });
 
         submissions.push(...posts, ...comments);
-        return res.status(200).json({ submissions, user });
+        return res.status(200).json({ submissions, user: user[0] });
       } else {
         posts.forEach((post) => {
           post.voteCount = post.votes.reduce(
@@ -79,7 +79,7 @@ module.exports = {
           );
         });
         submissions.push(...posts, ...comments);
-        return res.status(200).json({ submissions, user });
+        return res.status(200).json({ submissions, user: user[0] });
       }
     } catch (err) {
       console.log(err);

@@ -13,6 +13,7 @@ const Submit = () => {
   const router = useRouter();
   const { sub: subName } = router.query;
   const { data: sub, error } = useSWR(subName ? `/subs/${subName}` : null);
+  console.log(sub);
   if (error) router.push("/");
 
   const submitPost = async (e) => {
@@ -36,7 +37,7 @@ const Submit = () => {
       <Head>
         <title>Submit to Reddit</title>
       </Head>
-      <div className="w-160">
+      <div className="w-full px-3 md:w-160">
         <div className="p-4 bg-white rounded">
           <h1 className="mb-3 text-lg">Submit a post to /r/{subName}</h1>
           <form onSubmit={submitPost}>
@@ -72,7 +73,7 @@ const Submit = () => {
           </form>
         </div>
       </div>
-      {sub && <AboutSub sub={sub} />}
+      {sub && <AboutSub sub={sub.sub} />}
     </div>
   );
 };

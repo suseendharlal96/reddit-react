@@ -5,9 +5,10 @@ import dayjs from "dayjs";
 import { useAuthState } from "../context/auth";
 
 const AboutSub = ({ sub }) => {
+  console.log(sub);
   const { authenticated } = useAuthState();
   return (
-    <div className="ml-6 w-80">
+    <div className="hidden ml-6 w-80 md:block">
       <div className="p-3 bg-blue-500 rounded-t">
         <p className="font-semibold text-white">About Community</p>
       </div>

@@ -135,7 +135,7 @@ const Sub = () => {
         </>
       )}
       <div className="container flex pt-5">
-        {data?.posts && <div className="w-160">{postData}</div>}
+        {data?.posts && <div className="w-full px-3 md:w-160">{postData}</div>}
         <AboutSub sub={data?.sub} />
       </div>
     </div>

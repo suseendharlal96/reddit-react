@@ -27,17 +27,21 @@ const userSchema = new Schema(
       minlength: [6, "Must be atleast 6 characters long"],
       required: [true, "Must not be empty"],
     },
+    profileUrn:{
+      type:String
+    },
+    profileUrl:{
+      type:String
+    }
   },
   { timestamps: true }
 );
 
-userSchema.pre("save", async function () {
-  try {
-    console.log(this.password);
-    this.password = await bcrypt.hash(this.password, 6);
-  } catch (err) {
-    console.log(err);
-  }
-});
+userSchema.post('find',function(doc){
+doc.forEach((d)=>{
+d.profileUrl = d.profileUrn ? `${process.env.APP_URL}/images/${d.profileUrn}`
+: "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
+})
+})
 
 module.exports = model("User", userSchema);

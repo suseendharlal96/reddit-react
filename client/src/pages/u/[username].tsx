@@ -75,7 +75,7 @@ const User = () => {
               <div className="p-3 bg-blue-500 rounded-t">
                 <img
                   className="w-16 h-16 mx-auto border-2 border-white rounded-full"
-                  src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
+                  src={data.user.profileUrl}
                   alt="profile"
                 />
               </div>
