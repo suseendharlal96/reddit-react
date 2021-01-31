@@ -71,7 +71,7 @@ const PostCard = ({
   };
 
   return (
-    <div className="flex mb-4 bg-white rounded">
+    <div className="flex mb-4 bg-white rounded" id={identifier}>
       <div className="w-10 py-3 text-center bg-gray-200 rounded-l">
         <div
           onClick={() => vote(1, "")}

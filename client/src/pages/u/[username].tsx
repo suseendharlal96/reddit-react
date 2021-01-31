@@ -113,7 +113,7 @@ const User = () => {
               })
             ) : (
               <p className="font-semibold">
-                {user.username === data.user.username ? "You have" : "User has"}{" "}
+                {user.username === data.user.username ? "You have " : "This user has "}
                 not involved in any activities related to post or comments.
               </p>
             )}
