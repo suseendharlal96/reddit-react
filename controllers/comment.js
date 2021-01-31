@@ -6,7 +6,7 @@ module.exports = {
   postComment: async (req, res) => {
     const { identifier, slug } = req.params;
     try {
-      const post = await Post.findOne({ identifier, slug }).orFail();
+      const post = await Post.findOne({ identifier, slug });
       const user = res.locals.user;
       const userObj = await User.findOne({ username: user.username });
       if (post) {
@@ -19,8 +19,8 @@ module.exports = {
         if (comment) {
           post.comments.push(comment);
           await post.save();
+          return res.status(201).json(comment);
         }
-        return res.status(201).json(comment);
       }
     } catch (err) {
       console.log(err);

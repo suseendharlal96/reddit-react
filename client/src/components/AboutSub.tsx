@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 
 import { useAuthState } from "../context/auth";
 
-const AboutSub = ({ sub }) => {
+const AboutSub = ({ sub, hide }) => {
   console.log(sub);
   const { authenticated } = useAuthState();
   return (
@@ -36,7 +36,7 @@ const AboutSub = ({ sub }) => {
           </Link>
           on {dayjs(sub?.createdAt).format("D MMM YYYY")}
         </p>
-        {authenticated && (
+        {authenticated && !hide && (
           <Link href={`/r/${sub?.name}/submit`}>
             <a className="w-full py-1 text-sm blue button">Create Post</a>
           </Link>
