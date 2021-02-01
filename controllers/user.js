@@ -67,7 +67,7 @@ module.exports = {
           httpOnly: true,
           // secure: process.env.NODE_ENV === "production",
           path: "/",
-          sameSite: "strict",
+          // sameSite: "strict",
           maxAge: 3600,
         })
       );
@@ -91,7 +91,7 @@ module.exports = {
         path: "/",
         // secure: process.env.NODE_ENV === "production",
         maxAge: new Date(0),
-        sameSite: "strict",
+        // sameSite: "strict",
       })
     );
     return res.status(200).json({ success: "Logout success" });
