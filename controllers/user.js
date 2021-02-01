@@ -88,6 +88,7 @@ module.exports = {
       cookie.serialize("token", "", {
         httpOnly: true,
         path: "/",
+        sameSite: "strict",
         maxAge: new Date(0),
       })
     );
