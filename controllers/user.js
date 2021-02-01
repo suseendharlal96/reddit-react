@@ -65,7 +65,7 @@ module.exports = {
         httpOnly: true,
         path: "/",
         sameSite: "strict",
-        maxAge: 3600,
+        // maxAge: 36000,
       });
       let actualUser;
       if (email) {
