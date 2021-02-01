@@ -24,6 +24,7 @@ const Sub = () => {
     if (!data) {
       return;
     }
+    console.log(authenticated && user.username === data.sub.user.username)
     setSubCreator(authenticated && user.username === data.sub.user.username);
   }, [data]);
 

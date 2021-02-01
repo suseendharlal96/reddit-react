@@ -72,12 +72,10 @@ export default function Home() {
       <Head>
         <title>reddit: the front page of the internet</title>
       </Head>
-      <div className="container flex">
+      <div className="container relative flex">
         <div className="w-full px-4 md:w-160 md:p-0">
           {isValidating && (
-            <p className="text-sm text-center">
-              Fetching current data...
-            </p>
+            <p className="text-sm text-center">Fetching current data...</p>
           )}
           {posts?.map((post, index: number) => (
             <PostCard
@@ -91,7 +89,10 @@ export default function Home() {
             <p className="text-lg font-semibold text-center">Loading More...</p>
           )}
         </div>
-        <div className="hidden ml-6 md:block w-80">
+        <div
+          className="fixed hidden ml-6 md:block w-80"
+          style={{ right: '10%',}}
+        >
           <div className="bg-white rounded">
             <div className="p-4 border-b-2">
               <p className="text-lg font-semibold text-center">
