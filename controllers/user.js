@@ -38,8 +38,8 @@ module.exports = {
     const { username, password } = req.body;
     try {
       const errors = {};
-      if (username && username.trim().length === 0)
-        errors.username = "Username required";
+      if (username.trim().length === 0)
+        errors.username = "Username or Email required";
       if (password && password.trim().length === 0)
         errors.password = "Password required";
       if (Object.keys(errors).length > 0) {
@@ -50,7 +50,7 @@ module.exports = {
       user = await User.findOne({ username: username.trim() });
       if (!user) {
         user = await User.findOne({ email: username.trim() });
-        email = user.email;
+        email = user ? user.email : null;
       }
       if (!user) errors.username = "User not found";
       if (user) {
@@ -61,7 +61,6 @@ module.exports = {
         return res.status(400).json(errors);
       }
       const token = jwt.sign({ username: user.username }, process.env.SECRET);
-      console.log(token);
       res.set(
         "Set-Cookie",
         cookie.serialize("token", token, {
@@ -78,7 +77,6 @@ module.exports = {
       } else {
         actualUser = await User.find({ username }).select("-_id -password");
       }
-      console.log(actualUser);
       return res.json(actualUser[0]);
     } catch (err) {
       console.log(err);

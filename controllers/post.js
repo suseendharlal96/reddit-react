@@ -89,7 +89,6 @@ module.exports = {
   getPosts: async (req, res) => {
     const currentPage = req.query.page ? req.query.page : 0;
     const postsPerPage = req.query.count ? req.query.count : 4;
-    console.log({ currentPage, postsPerPage });
     try {
       if (res.locals.user) {
         const user = res.locals.user;

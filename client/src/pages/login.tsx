@@ -51,7 +51,7 @@ const Login = () => {
           <form autoComplete="off" noValidate onSubmit={onSubmit}>
             <CustomInput
               type="text"
-              placeholder="username"
+              placeholder="username/email"
               value={username}
               setValue={setUsername}
               error={error.username}
