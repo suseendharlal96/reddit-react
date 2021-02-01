@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 import { useAuthState } from "../context/auth";
 
 const AboutSub = ({ sub, hide }) => {
-  console.log(sub);
   const { authenticated } = useAuthState();
   return (
     <div className="hidden ml-6 w-80 md:block">

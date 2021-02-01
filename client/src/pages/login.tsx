@@ -23,6 +23,7 @@ const Login = () => {
         username,
         password,
       });
+      console.log(res.data)
       dispatch("LOGIN", res.data);
       router.back();
     } catch (error) {

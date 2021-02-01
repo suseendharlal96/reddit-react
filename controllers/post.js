@@ -89,12 +89,13 @@ module.exports = {
   getPosts: async (req, res) => {
     const currentPage = req.query.page ? req.query.page : 0;
     const postsPerPage = req.query.count ? req.query.count : 4;
+    console.log({ currentPage, postsPerPage });
     try {
       if (res.locals.user) {
         const user = res.locals.user;
         const posts = await Post.find()
           .limit(postsPerPage)
-          .skip(currentPage * postsPerPage)
+          .skip(+currentPage * postsPerPage)
           .populate("sub")
           .populate("user")
           .sort({ createdAt: "-1" });
@@ -133,7 +134,11 @@ module.exports = {
     const { identifier, slug } = req.params;
     try {
       const post = await Post.find({ slug, identifier })
-        .populate("sub")
+        // nested populate
+        .populate({
+          path: "sub",
+          populate: { path: "user", select: "-_id -password" },
+        })
         .populate("user")
         .populate("comments");
       if (!post) return res.status(404).json({ error: "Post not found" });

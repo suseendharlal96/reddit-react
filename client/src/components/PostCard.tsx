@@ -133,7 +133,7 @@ const PostCard = ({
                 <i className="mr-1 fas fa-comment-alt fa-xs"></i>
                 <span className="font-bold">
                   {commentCount}
-                  {commentCount > 1 ? "Comments" : "Comment"}
+                  {commentCount > 1 ? " Comments" : " Comment"}
                 </span>
               </ActionButton>
             </a>

@@ -252,7 +252,7 @@ const PostPage = () => {
             )}
           </div>
         </div>
-        {post && <AboutSub sub={post.sub} />}
+        {post && <AboutSub sub={post.sub} hide={false} />}
       </div>
     </>
   );

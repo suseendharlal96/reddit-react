@@ -21,7 +21,6 @@ const User = () => {
     router.query.username ? `/post/${router.query.username}` : null
   );
   if (error) router.push("/");
-  console.log(data);
   const uploadProfilePic = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files[0];
     const data = new FormData();

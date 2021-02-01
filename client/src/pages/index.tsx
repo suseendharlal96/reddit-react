@@ -75,7 +75,7 @@ export default function Home() {
       <div className="container flex">
         <div className="w-full px-4 md:w-160 md:p-0">
           {isValidating && (
-            <p className="text-lg font-semibold text-center">
+            <p className="text-sm text-center">
               Fetching current data...
             </p>
           )}

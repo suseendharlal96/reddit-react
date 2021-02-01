@@ -48,6 +48,7 @@ export const AuthProvider = ({ children }) => {
       try {
         const res = await axios.get("/auth/me");
         dispatch("LOGIN", res.data);
+        console.log(res.data)
       } catch (err) {
         console.log(err);
       } finally {
