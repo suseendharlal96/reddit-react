@@ -61,15 +61,12 @@ module.exports = {
         return res.status(400).json(errors);
       }
       const token = jwt.sign({ username }, process.env.SECRET);
-      res.set(
-        "Set-Cookie",
-        cookie.serialize("token", token, {
-          // httpOnly: true,
-          // path: "/",
-          // sameSite: "strict",
-          maxAge: 3600,
-        })
-      );
+      res.cookie("token", token, {
+        httpOnly: true,
+        path: "/",
+        sameSite: "strict",
+        maxAge: 3600,
+      });
       let actualUser;
       if (email) {
         actualUser = await User.find({ email }).select("-_id -password");
@@ -83,15 +80,7 @@ module.exports = {
   },
 
   logout: (_, res) => {
-    res.set(
-      "Set-Cookie",
-      cookie.serialize("token", "", {
-        // httpOnly: true,
-        // path: "/",
-        // sameSite: "strict",
-        maxAge: new Date(0),
-      })
-    );
+   res.clearCookie('token')
     return res.status(200).json({ success: "Logout success" });
   },
 
