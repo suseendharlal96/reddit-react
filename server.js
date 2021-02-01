@@ -18,8 +18,8 @@ app.set("trust proxy", 1);
 app.use(
   cors({
     credentials: true,
-    origin: "https://reddit-react.vercel.app",
-    // origin: "http://localhost:3000",
+    // origin: "https://reddit-react.vercel.app",
+    origin: "http://localhost:3000",
     optionsSuccessStatus: 200,
   })
 );

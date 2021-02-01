@@ -9,8 +9,8 @@ import { AuthProvider } from "../context/auth";
 import "../styles/tailwind.css";
 import "../styles/icons.css";
 
-axios.defaults.baseURL = "https://reddit-clone-node.herokuapp.com/api";
-// axios.defaults.baseURL = "http://localhost:5000/api";
+// axios.defaults.baseURL = "https://reddit-clone-node.herokuapp.com/api";
+axios.defaults.baseURL = "http://localhost:5000/api";
 axios.defaults.withCredentials = true;
 
 function App({ Component, pageProps }: AppProps) {

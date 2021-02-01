@@ -61,12 +61,15 @@ module.exports = {
         return res.status(400).json(errors);
       }
       const token = jwt.sign({ username }, process.env.SECRET);
-      res.cookie("token", token, {
-        httpOnly: true,
-        path: "/",
-        sameSite: "strict",
-        // maxAge: 36000,
-      });
+      res.setHeader(
+        "Set-Cookie",
+        cookie.serialize("token", token, {
+          httpOnly: true,
+          // secure: process.env.NODE_ENV !== "development",
+          sameSite: "strict",
+          path: "/",
+        })
+      );
       let actualUser;
       if (email) {
         actualUser = await User.find({ email }).select("-_id -password");
