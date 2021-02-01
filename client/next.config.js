@@ -11,6 +11,6 @@ module.exports = {
     return config;
   },
   images:{
-    domains:['www.gravatar.com','localhost']
+    domains:['www.gravatar.com','localhost','https://reddit-clone-node.herokuapp.com/api']
   }
 };

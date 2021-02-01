@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000",
+    origin: "https://reddit-react.vercel.app",
     optionsSuccessStatus: 200,
   })
 );
@@ -36,7 +36,7 @@ mongoose
   })
   .then(() =>
     app.listen(process.env.PORT, () => {
-      console.log("running on http://localhost:5000");
+      console.log(`running on ${process.env.PORT}`);
     })
   )
   .catch((err) => {
