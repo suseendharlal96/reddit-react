@@ -60,7 +60,7 @@ module.exports = {
       if (Object.keys(errors).length > 0) {
         return res.status(400).json(errors);
       }
-      const token = jwt.sign({ username: user.username }, process.env.SECRET);
+      const token = jwt.sign({ username }, process.env.SECRET);
       res.set(
         "Set-Cookie",
         cookie.serialize("token", token, {
