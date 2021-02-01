@@ -66,7 +66,7 @@ module.exports = {
         cookie.serialize("token", token, {
           httpOnly: true,
           // secure: process.env.NODE_ENV === "production",
-          path: "/",
+          // path: "/",
           // sameSite: "strict",
           maxAge: 3600,
         })
@@ -88,7 +88,7 @@ module.exports = {
       "Set-Cookie",
       cookie.serialize("token", "", {
         httpOnly: true,
-        path: "/",
+        // path: "/",
         // secure: process.env.NODE_ENV === "production",
         maxAge: new Date(0),
         // sameSite: "strict",
