@@ -64,9 +64,9 @@ module.exports = {
       res.set(
         "Set-Cookie",
         cookie.serialize("token", token, {
-          httpOnly: true,
-          path: "/",
-          sameSite: "strict",
+          // httpOnly: true,
+          // path: "/",
+          // sameSite: "strict",
           maxAge: 3600,
         })
       );
@@ -86,9 +86,9 @@ module.exports = {
     res.set(
       "Set-Cookie",
       cookie.serialize("token", "", {
-        httpOnly: true,
-        path: "/",
-        sameSite: "strict",
+        // httpOnly: true,
+        // path: "/",
+        // sameSite: "strict",
         maxAge: new Date(0),
       })
     );
