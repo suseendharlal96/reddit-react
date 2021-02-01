@@ -73,7 +73,7 @@ const Submit = () => {
           </form>
         </div>
       </div>
-      {sub && <AboutSub sub={sub.sub} hide />}
+      {sub && <AboutSub sub={sub.sub} hide posts={1} />}
     </div>
   );
 };

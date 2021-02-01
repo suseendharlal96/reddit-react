@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,19 +14,27 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import AboutSub from "../../../../components/AboutSub";
 import ActionButton from "../../../../components/ActionButton";
 import { useAuthState } from "../../../../context/auth";
-// import { ChangeEvent } from "react";
 
 const PostPage = () => {
   dayjs.extend(relativeTime);
   const router = useRouter();
   const { identifier, sub, slug } = router.query;
+
   const { authenticated, user } = useAuthState();
   const [newComment, setNewComment] = useState("");
+  const [description, setDescription] = useState("");
 
   const { data: post, error, revalidate } = useSWR(
     identifier && slug ? `/post/${identifier}/${slug}` : null
   );
   if (error) router.push("/");
+
+  useEffect(() => {
+    if (!post) return;
+    let desc = post.body || post.title;
+    desc = desc.substring(0, 158).concat("..");
+    setDescription(desc);
+  }, [post]);
 
   const vote = async (value: number, comment: any) => {
     if (!authenticated) return router.push("/login");
@@ -67,6 +75,12 @@ const PostPage = () => {
     <>
       <Head>
         <title>{post?.title}</title>
+        <meta name="description" content={description} />
+        <meta property="og:description" content={description} />
+        <meta property="twitter:description" content={description} />
+
+        <meta property="og:title" content={post?.title} />
+        <meta property="twitter:title" content={post?.title} />
       </Head>
       <Link href={`/r/${sub}`}>
         <a>
@@ -103,7 +117,9 @@ const PostPage = () => {
                         })}
                       ></i>
                     </div>
-                    <p className="text-xs font-bold">{post.voteCount}</p>
+                    <p className="text-xs font-bold">
+                      {post.voteCount === 0 ? "Vote" : post.voteCount}
+                    </p>
                     <div
                       onClick={() => vote(-1, "")}
                       className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
@@ -219,7 +235,9 @@ const PostPage = () => {
                             })}
                           ></i>
                         </div>
-                        <p className="text-xs font-bold">{comment.voteCount}</p>
+                        <p className="text-xs font-bold">
+                          {comment.voteCount === 0 ? "Vote" : comment.voteCount}
+                        </p>
                         <div
                           onClick={() => vote(-1, comment)}
                           className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
@@ -252,7 +270,7 @@ const PostPage = () => {
             )}
           </div>
         </div>
-        {post && <AboutSub sub={post.sub} hide={false} />}
+        {post && <AboutSub sub={post.sub} hide={false} posts={false} />}
       </div>
     </>
   );

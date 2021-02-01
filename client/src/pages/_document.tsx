@@ -16,6 +16,20 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <title>Reddit</title>
+          <link rel="icon" href="/redditlogo.svg" type="image/svg+xml" />
+          <meta property="og:site_name" content="reddit" />
+          <meta property="twitter:site" content="@reddit" />
+          <meta property="og:type" content="website" />
+          {/* <meta
+            property="og:image"
+            content={`${process.env.process.NEXT_PUBLIC_CLIENT_BASE_URL.toString()}/redditlogo.svg`}
+          />
+          <meta
+            property="twitter:image"
+            content={`${process.env.process.NEXT_PUBLIC_CLIENT_BASE_URL.toString()}/redditlogo.svg`}
+          /> */}
+          <meta property="twitter:card" content="summary" />
           <link rel="preconnect" href="https://fonts.gstatic.com" />
           <link
             href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600&display=swap"

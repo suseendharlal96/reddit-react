@@ -18,9 +18,16 @@ export default function Home() {
     setSize: setPage,
     isValidating,
     revalidate,
+    error,
   } = useSWRInfinite((index) => `/post?page=${index}`, { revalidateAll: true });
 
+  const isInitialLoading = !data && !error;
+
   const posts = data ? [].concat(...data) : [];
+
+  const title = "reddit: the front page of the internet";
+  const description =
+    "Reddit is a network of communities based on people's interests. Find communities you're interested in, and become part of an online community!";
 
   const { data: subs } = useSWR("/subs");
   const { authenticated } = useAuthState();
@@ -70,11 +77,18 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>reddit: the front page of the internet</title>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        {/* og is for facebook */}
+        <meta property="og:description" content={description} />
+        <meta property="twitter:description" content={description} />
+
+        <meta property="og:title" content={title} />
+        <meta property="twitter:title" content={title} />
       </Head>
       <div className="container relative flex">
         <div className="w-full px-4 md:w-160 md:p-0">
-          {isValidating && (
+          {isInitialLoading && (
             <p className="text-sm text-center">Fetching current data...</p>
           )}
           {posts?.map((post, index: number) => (
@@ -91,7 +105,7 @@ export default function Home() {
         </div>
         <div
           className="fixed hidden ml-6 md:block w-80"
-          style={{ right: '10%',}}
+          style={{ right: "10%" }}
         >
           <div className="bg-white rounded">
             <div className="p-4 border-b-2">

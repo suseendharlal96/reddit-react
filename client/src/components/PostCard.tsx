@@ -52,6 +52,7 @@ const PostCard = ({
   dayjs.extend(relativeTime);
   const router = useRouter();
   const { authenticated } = useAuthState();
+  const isSubPage = router.pathname === "/r/[sub]";
 
   const vote = async (value: number, commentIdentifier: string) => {
     if (!authenticated) return router.push("/login");
@@ -83,7 +84,9 @@ const PostCard = ({
             })}
           ></i>
         </div>
-        <p className="text-xs font-bold">{voteCount}</p>
+        <p className="text-xs font-bold">
+          {voteCount === 0 ? "Vote" : voteCount}
+        </p>
         <div
           onClick={() => vote(-1, "")}
           className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
@@ -97,20 +100,24 @@ const PostCard = ({
       </div>
       <div className="w-full p-2">
         <div className="flex items-center">
-          <Link href={`/r/${subName}`}>
-            <img
-              src={imageUrl}
-              alt="img"
-              className="w-6 h-6 mr-1 rounded-full cursor-pointer"
-            />
-          </Link>
-          <Link href={`/r/${subName}`}>
-            <a className="text-xs font-bold cursor-pointer hover:underline">
-              /r/{subName}
-            </a>
-          </Link>
+          {!isSubPage && (
+            <>
+              <Link href={`/r/${subName}`}>
+                <img
+                  src={imageUrl}
+                  alt="img"
+                  className="w-6 h-6 mr-1 rounded-full cursor-pointer"
+                />
+              </Link>
+              <Link href={`/r/${subName}`}>
+                <a className="text-xs font-bold cursor-pointer hover:underline">
+                  /r/{subName}
+                </a>
+              </Link>
+              <span className="mx-1 text-xs text-gray-500">•</span>
+            </>
+          )}
           <p className="text-xs text-gray-500">
-            <span className="mx-1">•</span>
             Posted by
             <Link href={`/u/${user.username}`}>
               <a className="mx-1 hover:underline">{`/u/${user.username}`}</a>

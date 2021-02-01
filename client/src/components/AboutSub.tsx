@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 
 import { useAuthState } from "../context/auth";
 
-const AboutSub = ({ sub, hide }) => {
+const AboutSub = ({ sub, hide, posts }) => {
   const { authenticated } = useAuthState();
   return (
     <div className="hidden ml-6 w-80 md:block">
@@ -16,14 +16,20 @@ const AboutSub = ({ sub, hide }) => {
           {sub?.description ? sub?.description : sub?.title}
         </p>
         <div className="flex mb-3 text-sm font-medium">
-          <div className="w-1/2">
+          <div className="w-1/3">
             <p>5k</p>
             <p>members</p>
           </div>
-          <div className="w-1/2">
+          <div className="w-1/3">
             <p>230</p>
             <p>online</p>
           </div>
+          {typeof posts !== "boolean" && (
+            <div className="w-1/3">
+              <p>{posts}</p>
+              <p>{posts > 1 ? "Posts" : "Post"}</p>
+            </div>
+          )}
         </div>
         <p className="my-3">
           <i className="mr-2 fas fa-birthday-cake"></i>

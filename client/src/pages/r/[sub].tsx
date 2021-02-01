@@ -24,7 +24,6 @@ const Sub = () => {
     if (!data) {
       return;
     }
-    console.log(authenticated && user.username === data.sub.user.username)
     setSubCreator(authenticated && user.username === data.sub.user.username);
   }, [data]);
 
@@ -61,7 +60,12 @@ const Sub = () => {
     postData = <p className="text-lg text-center">No posts under this sub.</p>;
   } else {
     postData = data?.posts.map((post) => (
-      <PostCard key={post._id} post={post} imageUrl={data?.sub?.imageUrl} revalidate={revalidate} />
+      <PostCard
+        key={post._id}
+        post={post}
+        imageUrl={data?.sub?.imageUrl}
+        revalidate={revalidate}
+      />
     ));
   }
   return (
@@ -136,8 +140,12 @@ const Sub = () => {
         </>
       )}
       <div className="container flex pt-5">
-        {data?.posts && <div className="w-full px-3 md:w-160">{postData}</div>}
-        <AboutSub sub={data?.sub} hide={false} />
+        {data?.posts && (
+          <>
+            <div className="w-full px-3 md:w-160">{postData}</div>
+            <AboutSub sub={data?.sub} hide={false} posts={data?.posts.length} />
+          </>
+        )}
       </div>
     </div>
   );
