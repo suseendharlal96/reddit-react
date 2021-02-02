@@ -26,7 +26,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         value={value}
         onChange={(e) => setValue(e.target.value)}
         className={classNames(
-          "w-full p-3 transition duration-200 bg-gray-200 border border-gray-300 rounded outline-none hover:bg-white focus:bg-white",
+          "w-full p-3 transition  duration-200 bg-gray-200 border dark:bg-gray-700 dark:hover:bg-gray-500 dark:focus:bg-gray-500 border-gray-300 rounded outline-none hover:bg-white focus:bg-white",
           { "border-red-500": error }
         )}
         placeholder={placeholder}

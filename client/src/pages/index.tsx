@@ -89,7 +89,7 @@ export default function Home() {
       <div className="container relative flex">
         <div className="w-full px-4 md:w-160 md:p-0">
           {isInitialLoading && (
-            <p className="text-sm text-center">Fetching current data...</p>
+            <p className="text-sm text-center dark:text-gray-500">Fetching current data...</p>
           )}
           {posts?.map((post, index: number) => (
             <PostCard
@@ -100,16 +100,16 @@ export default function Home() {
             />
           ))}
           {isValidating && posts.length > 0 && (
-            <p className="text-lg font-semibold text-center">Loading More...</p>
+            <p className="text-lg font-semibold text-center dark:text-gray-500">Loading More...</p>
           )}
         </div>
         <div
           className="fixed hidden ml-6 lg:block w-80"
           style={{ right: "10%" }}
         >
-          <div className="bg-white rounded">
+          <div className="bg-white rounded dark:bg-gray-800">
             <div className="p-4 border-b-2">
-              <p className="text-lg font-semibold text-center">
+              <p className="text-lg font-semibold text-center dark:text-gray-50">
                 Top Communities
               </p>
             </div>
@@ -117,7 +117,7 @@ export default function Home() {
             {authenticated && (
               <div className="p-4 border-t-2">
                 <Link href="/subs/create">
-                  <a className="w-full px-2 py-1 blue button">
+                  <a className="w-full px-2 py-1 blue button dark:bg-gray-800">
                     Create Community
                   </a>
                 </Link>

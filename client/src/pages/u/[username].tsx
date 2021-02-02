@@ -71,30 +71,29 @@ const User = () => {
                   return (
                     <div
                       key={comment.identifier}
-                      className="flex my-4 bg-white rounded"
+                      className="flex my-4 bg-white rounded dark:bg-gray-800"
                     >
-                      <div className="flex-shrink-0 w-10 py-4 text-center bg-gray-200 rounded-l shrink-0">
+                      <div className="flex-shrink-0 w-10 py-4 text-center bg-gray-200 rounded-l dark:bg-gray-900 shrink-0">
                         <i className="text-gray-500 fas fa-comment-alt fa-xs"></i>
                       </div>
-                      <div className="w-full p-2">
-                        <p className="mb-2 text-xs text-gray-500">
-                          {comment.username}
-                          <span> commented on </span>
+                      <div className="w-full p-2 ">
+                        <p className="mb-2 text-xs text-gray-500 ">
+                          <span className="dark:text-gray-50">commented on </span>
                           <Link href={comment.post.url}>
-                            <a className="font-semibold cursor-pointer hover:underline">
+                            <a className="font-semibold cursor-pointer hover:underline dark:text-gray-50">
                               {comment.post.title}
                             </a>
                           </Link>
                           <span className="mx-1">•</span>
                           <Link href={`/r/${comment.post.subName}`}>
-                            <a className="text-black cursor-pointer hover:underline">
+                            <a className="text-black cursor-pointer hover:underline dark:text-gray-50">
                               {"/r/" + comment.post.subName + " "}
                             </a>
                           </Link>
                           {dayjs(comment.createdAt).fromNow()}
                         </p>
                         <hr />
-                        <p>{comment.commentBody}</p>
+                        <p className="dark:text-gray-50">{comment.commentBody}</p>
                       </div>
                     </div>
                   );
@@ -112,13 +111,15 @@ const User = () => {
               })
             ) : (
               <p className="font-semibold">
-                {user.username === data.user.username ? "You have " : "This user has "}
+                {user.username === data.user.username
+                  ? "You have "
+                  : "This user has "}
                 not involved in any activities related to post or comments.
               </p>
             )}
           </div>
           <div className="ml-6 w-80">
-            <div className="bg-white rounded">
+            <div className="bg-white rounded dark:bg-gray-700">
               <div
                 onClick={openFileExplorer}
                 className={classNames("p-3 bg-blue-500 rounded-t", {
@@ -138,9 +139,11 @@ const User = () => {
                 />
               </div>
               <div className="p-3 text-center">
-                <h1 className="mb-3 text-xl ">{data.user.username}</h1>
+                <h1 className="mb-3 text-xl dark:text-gray-50">
+                  {data.user.username}
+                </h1>
                 <hr />
-                <p className="mt-2">
+                <p className="mt-2 dark:text-gray-50">
                   Joined {dayjs(data.user.createdAt).format("MMM YYYY")}
                 </p>
               </div>

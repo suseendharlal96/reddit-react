@@ -23,7 +23,7 @@ const Login = () => {
         username,
         password,
       });
-      console.log(res.data)
+      console.log(res.data);
       dispatch("LOGIN", res.data);
       router.back();
     } catch (error) {
@@ -33,19 +33,19 @@ const Login = () => {
     }
   };
   return (
-    <div className="flex bg-white">
+    <div className="flex bg-white dark:bg-black">
       <Head>
         <title>Login</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div
-        className="w-40 h-screen bg-center bg-cover"
+        className="hidden w-40 h-screen bg-center bg-cover md:block"
         style={{ backgroundImage: "url('/images/bricks.jpg')" }}
       ></div>
-      <div className="flex flex-col justify-center pl-6">
+      <div className="flex-col justify-center w-full pl-6 mx-auto md:flex">
         <div className="w-70">
-          <h1 className="mb-2 text-lg font-medium">Login</h1>
-          <p className="mb-10 text-xs">
+          <h1 className="mb-2 text-lg font-medium dark:text-gray-50">Login</h1>
+          <p className="mb-10 text-xs dark:text-gray-50">
             By continuing, you agree to our User Agreement and Privacy Policy.
           </p>
           <form autoComplete="off" noValidate onSubmit={onSubmit}>
@@ -55,7 +55,7 @@ const Login = () => {
               value={username}
               setValue={setUsername}
               error={error.username}
-              className="mb-2"
+              className="mb-2 dark:text-gray-50"
             />
             <CustomInput
               type="password"
@@ -63,13 +63,13 @@ const Login = () => {
               value={password}
               setValue={setPassword}
               error={error.password}
-              className="mb-2"
+              className="mb-2 dark:text-gray-50"
             />
             <button className="w-full py-2 mb-4 text-xs font-bold text-white uppercase bg-blue-500 border-blue-500 rounded cursor-pointer">
               Log in
             </button>
           </form>
-          <small>
+          <small className="dark:text-gray-50">
             New to Reddit?
             <Link href="/register">
               <a className="ml-1 font-bold text-blue-500 uppercase">Sign up</a>

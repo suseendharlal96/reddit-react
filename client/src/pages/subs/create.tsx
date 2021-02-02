@@ -44,7 +44,7 @@ const Create = () => {
 
   return (
     authenticated && (
-      <div className="flex bg-white">
+      <div className="flex bg-white dark:bg-black">
         <Head>
           <title>Create a Community</title>
         </Head>
@@ -54,18 +54,18 @@ const Create = () => {
         ></div>
         <div className="flex flex-col justify-center pl-6">
           <div className="w-98">
-            <h1 className="mb-2 text-lg font-medium">Create a Community</h1>
+            <h1 className="mb-2 text-lg font-medium dark:text-gray-50">Create a Community</h1>
             <hr />
             <form onSubmit={submitForm}>
               <div className="my-6">
-                <p className="font-medium">Name</p>
-                <p className="mb-2 text-xs text-gray-500">
+                <p className="font-medium dark:text-gray-50">Name</p>
+                <p className="mb-2 text-xs text-gray-500 ">
                   Community names including capitalization cannot be changed.
                 </p>
                 <input
                   type="text"
                   className={classNames(
-                    "w-full p-3 border border-gray-200 rounded hover:border-gray-500",
+                    "w-full p-3 border border-gray-200 dark:bg-gray-700 dark:text-gray-50 rounded hover:border-gray-500",
                     { "border-red-600": errors.sub || errors.name }
                   )}
                   value={name}
@@ -76,7 +76,7 @@ const Create = () => {
                 </small>
               </div>
               <div className="my-6">
-                <p className="font-medium">Title</p>
+                <p className="font-medium dark:text-gray-50">Title</p>
                 <p className="mb-2 text-xs text-gray-500">
                   Community title represent the topic an you change it at any
                   time.
@@ -84,7 +84,7 @@ const Create = () => {
                 <input
                   type="text"
                   className={classNames(
-                    "w-full p-3 border border-gray-200 rounded hover:border-gray-500",
+                    "w-full p-3 border border-gray-200 dark:bg-gray-700 dark:text-gray-50 rounded hover:border-gray-500",
                     { "border-red-600": errors.title }
                   )}
                   value={title}
@@ -95,13 +95,13 @@ const Create = () => {
                 </small>
               </div>
               <div className="my-6">
-                <p className="font-medium">Description</p>
+                <p className="font-medium dark:text-gray-50">Description</p>
                 <p className="mb-2 text-xs text-gray-500">
                   This is how new members come to understand your community.
                 </p>
                 <textarea
                   className={classNames(
-                    "w-full p-3 border border-gray-200 rounded hover:border-gray-500",
+                    "w-full p-3 border border-gray-200 dark:bg-gray-700 dark:text-gray-50 rounded hover:border-gray-500",
                     { "border-red-600": errors.description }
                   )}
                   value={description}

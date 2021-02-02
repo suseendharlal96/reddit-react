@@ -35,19 +35,19 @@ const Register = () => {
     }
   };
   return (
-    <div className="flex bg-white">
+    <div className="flex bg-white dark:bg-black">
       <Head>
         <title>Register</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div
-        className="w-40 h-screen bg-center bg-cover"
+        className="hidden w-40 h-screen bg-center bg-cover md:block"
         style={{ backgroundImage: "url('/images/bricks.jpg')" }}
       ></div>
-      <div className="flex flex-col justify-center pl-6 ">
+      <div className="flex-col justify-center w-full pl-6 md:flex ">
         <div className="w-70">
-          <h1 className="mb-2 text-lg font-medium">Sign up</h1>
-          <p className="mb-10 text-xs">
+          <h1 className="mb-2 text-lg font-medium dark:text-gray-50">Sign up</h1>
+          <p className="mb-10 text-xs dark:text-gray-50">
             By continuing, you agree to our User Agreement and Privacy Policy.
           </p>
           {/* {JSON.stringify(errors.email, null, 2)} */}
@@ -60,7 +60,7 @@ const Register = () => {
                 onChange={() => setAgreement((prevState) => !prevState)}
                 className="mr-1 cursor-pointer"
               />
-              <label htmlFor="agreement" className="text-xs cursor-pointer">
+              <label htmlFor="agreement" className="text-xs cursor-pointer dark:text-gray-50">
                 I agree to get emails about cool stuffs on Reddit.
               </label>
             </div>
@@ -70,7 +70,7 @@ const Register = () => {
               value={email}
               setValue={setEmail}
               error={error.email}
-              className="mb-2"
+              className="mb-2 dark:text-gray-50"
             />
             <CustomInput
               type="text"
@@ -78,7 +78,7 @@ const Register = () => {
               value={username}
               setValue={setUsername}
               error={error.username}
-              className="mb-2"
+              className="mb-2 dark:text-gray-50"
             />
             <CustomInput
               type="password"
@@ -86,7 +86,7 @@ const Register = () => {
               value={password}
               setValue={setPassword}
               error={error.password}
-              className="mb-2"
+              className="mb-2 dark:text-gray-50"
             />
             <button
               disabled={!agreement}
@@ -101,7 +101,7 @@ const Register = () => {
               Sign up
             </button>
           </form>
-          <small>
+          <small className="dark:text-gray-50">
             Already a redditor?
             <Link href="/login">
               <a className="ml-1 font-bold text-blue-500 uppercase">Log in</a>

@@ -8,14 +8,14 @@ const AboutSub = ({ sub, hide, posts }) => {
   const { authenticated } = useAuthState();
   return (
     <div className="hidden ml-6 w-80 md:block">
-      <div className="p-3 bg-blue-500 rounded-t">
+      <div className="p-3 text-center bg-blue-500 rounded-t dark:bg-gray-800">
         <p className="font-semibold text-white">About Community</p>
       </div>
-      <div className="p-3 bg-white">
-        <p className="mb-3 font-bold text-center text-md">
+      <div className="p-3 bg-white dark:bg-gray-700">
+        <p className="mb-3 font-bold text-center dark:text-gray-50 text-md">
           {sub?.description ? sub?.description : sub?.title}
         </p>
-        <div className="flex mb-3 text-sm font-medium">
+        <div className="flex mb-3 text-sm font-medium dark:text-gray-50">
           <div className="w-1/3">
             <p>5k</p>
             <p>members</p>
@@ -31,7 +31,7 @@ const AboutSub = ({ sub, hide, posts }) => {
             </div>
           )}
         </div>
-        <p className="my-3">
+        <p className="my-3 dark:text-gray-50">
           <i className="mr-2 fas fa-birthday-cake"></i>
           Created by
           <Link href={`/u/${sub?.user.username}`}>
@@ -43,7 +43,7 @@ const AboutSub = ({ sub, hide, posts }) => {
         </p>
         {authenticated && !hide && (
           <Link href={`/r/${sub?.name}/submit`}>
-            <a className="w-full py-1 text-sm blue button">Create Post</a>
+            <a className="w-full py-1 text-sm blue button dark:text-gray-50">Create Post</a>
           </Link>
         )}
       </div>

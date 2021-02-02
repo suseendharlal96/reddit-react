@@ -35,7 +35,11 @@ function App({ Component, pageProps }: AppProps) {
     >
       <AuthProvider>
         {!isAuthRoute && <Navbar />}
-        <div className={isAuthRoute ? "" : "pt-12 mt-1"}>
+        <div
+          className={
+            isAuthRoute ? "dark:bg-black" : "dark:bg-black pt-12 mt-1"
+          }
+        >
           <Component {...pageProps} />
         </div>
       </AuthProvider>

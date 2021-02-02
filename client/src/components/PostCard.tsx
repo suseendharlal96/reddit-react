@@ -72,11 +72,14 @@ const PostCard = ({
   };
 
   return (
-    <div className="flex mb-4 bg-white rounded" id={identifier}>
-      <div className="w-10 py-3 text-center bg-gray-200 rounded-l">
+    <div
+      className="flex mb-4 bg-white rounded dark:bg-gray-800"
+      id={identifier}
+    >
+      <div className="w-10 py-3 text-center bg-gray-200 rounded-l dark:bg-gray-900">
         <div
           onClick={() => vote(1, "")}
-          className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
+          className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-red-500"
         >
           <i
             className={classNames("icon-arrow-up", {
@@ -84,12 +87,12 @@ const PostCard = ({
             })}
           ></i>
         </div>
-        <p className="text-xs font-bold">
+        <p className="text-xs font-bold dark:text-gray-50">
           {voteCount === 0 ? "Vote" : voteCount}
         </p>
         <div
           onClick={() => vote(-1, "")}
-          className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
+          className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 dark:hover:bg-gray-700 hover:text-blue-500"
         >
           <i
             className={classNames("icon-arrow-down", {
@@ -99,7 +102,7 @@ const PostCard = ({
         </div>
       </div>
       <div className="w-full p-2">
-        <div className="flex items-center">
+        <div className="flex items-center dark:text-gray-50">
           {!isSubPage && (
             <>
               <Link href={`/r/${subName}`}>
@@ -130,9 +133,9 @@ const PostCard = ({
           </p>
         </div>
         <Link href={`/r/${subName}/${identifier}/${slug}`}>
-          <a className="my-1 text-lg font-medium">{title}</a>
+          <a className="my-1 text-lg font-medium dark:text-gray-50">{title}</a>
         </Link>
-        {body && <p className="my-1 text-sm">{body}</p>}
+        {body && <p className="my-1 text-sm dark:text-gray-50">{body}</p>}
         <div className="flex">
           <Link href={`/r/${subName}/${identifier}/${slug}`}>
             <a>

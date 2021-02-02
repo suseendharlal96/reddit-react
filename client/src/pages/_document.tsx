@@ -42,7 +42,7 @@ class MyDocument extends Document {
             crossOrigin="anonymous"
           />
         </Head>
-        <body className="font-body" style={{ backgroundColor: "#DAE0E6" }}>
+        <body className="bg-gray-400 font-body dark:bg-black">
           <Main />
           <NextScript />
         </body>

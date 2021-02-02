@@ -49,24 +49,24 @@ const Submit = () => {
           <title>Submit to Reddit</title>
         </Head>
         <div className="w-full px-3 md:w-160">
-          <div className="p-4 bg-white rounded">
-            <h1 className="mb-3 text-lg">Submit a post to /r/{subName}</h1>
+          <div className="p-4 bg-white rounded dark:bg-gray-700">
+            <h1 className="mb-3 text-lg dark:text-gray-50">Submit a post to /r/{subName}</h1>
             <form onSubmit={submitPost}>
               <div className="relative mb-2">
                 <input
                   type="text"
-                  className="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none"
+                  className="w-full px-3 py-2 border border-gray-300 rounded dark:bg-gray-500 dark:text-gray-50 focus:outline-none"
                   placeholder="Title"
                   maxLength={300}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
-                <div className="absolute mb-2 text-sm text-gray-500 select-none focus:border-gray-600">
+                <div className="absolute mb-2 text-sm text-gray-500 select-none dark:text-gray-50 focus:border-gray-600">
                   {title.trim().length}/300
                 </div>
               </div>
               <textarea
-                className="w-full p-3 mt-3 border border-gray-300 rounded focus:outline-none focus:border-gray-600"
+                className="w-full p-3 mt-3 border border-gray-300 rounded dark:bg-gray-500 dark:text-gray-50 focus:outline-none focus:border-gray-600"
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 placeholder="Message(Optional)"

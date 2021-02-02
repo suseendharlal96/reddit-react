@@ -7,7 +7,7 @@ const TopSubs = ({ subs }) => {
       {subs.map((sub) => (
         <div
           key={sub.name}
-          className="flex items-center px-4 py-2 text-xs break-all border-b"
+          className="flex items-center px-4 py-2 text-xs break-all border-b dark:bg-gray-700"
         >
           <Link href={`/r/${sub.name}`}>
             <a>
@@ -20,7 +20,7 @@ const TopSubs = ({ subs }) => {
             </a>
           </Link>
           <Link href={`/r/${sub.name}`}>
-            <a className="ml-2 font-bold hover:cursor-pointer">/r/{sub.name}</a>
+            <a className="ml-2 font-bold hover:cursor-pointer dark:text-gray-50">/r/{sub.name}</a>
           </Link>
         </div>
       ))}

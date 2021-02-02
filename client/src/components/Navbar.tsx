@@ -55,7 +55,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-between h-12 px-5 bg-white ">
+    <div className="fixed inset-x-0 top-0 z-10 flex items-center justify-between h-12 px-5 bg-white dark:bg-gray-800 ">
       <div className="flex items-center">
         <Link href="/">
           <a>
@@ -63,31 +63,31 @@ const Navbar = () => {
             {/* <RedditLogo /> */}
           </a>
         </Link>
-        <span className="hidden text-2xl font-semibold lg:block">
+        <span className="hidden text-2xl font-semibold lg:block dark:text-gray-50">
           <Link href="/">
             <a>reddit</a>
           </Link>
         </span>
       </div>
       <div className="px-4 lg:w-full w-96">
-        <div className="relative flex items-center bg-gray-100 border rounded focus:border-blue-400 focus:bg-white hover:border-blue-400 hover:bg-white">
+        <div className="relative flex items-center bg-gray-100 border rounded focus:border-blue-400 focus:bg-white dark:bg-gray-700 dark:focus:bg-gray-500 dark:hover:bg-gray-800 hover:border-blue-400 hover:bg-white">
           <i className="pl-4 mr-2 text-gray-500 fas fa-search"></i>
           <input
             type="text"
             placeholder="Search"
             value={search}
             onChange={(e) => searchSubs(e.target.value)}
-            className="py-1 pr-3 bg-transparent rounded outline-none w-160"
+            className="py-1 pr-3 bg-transparent rounded outline-none dark:text-gray-50 w-160"
           />
           <div
-            className="absolute left-0 right-0 bg-white"
+            className="absolute left-0 right-0 bg-white dark:bg-gray-800"
             style={{ top: "100%" }}
           >
             {subs?.map((sub) => (
               <div
                 key={sub.name}
                 onClick={() => navToSub(sub.name)}
-                className="flex items-center px-4 py-3 cursor-pointer hover:bg-gray-200"
+                className="flex items-center px-4 py-3 cursor-pointer dark:hover:bg-gray-500 hover:bg-gray-200"
               >
                 <Image
                   className="rounded-full"
@@ -96,8 +96,8 @@ const Navbar = () => {
                   width={(8 * 16) / 4}
                 />
                 <div className="ml-4 text-sm">
-                  <p className="font-medium">{sub.name}</p>
-                  <p className="text-gray-600">{sub.title}</p>
+                  <p className="font-medium dark:text-gray-50">{sub.name}</p>
+                  <p className="text-gray-600 dark:text-gray-400">{sub.title}</p>
                 </div>
               </div>
             ))}
@@ -109,19 +109,19 @@ const Navbar = () => {
           (authenticated ? (
             <button
               onClick={logout}
-              className="hidden w-20 py-1 mr-5 leading-5 md:block lg:w-32 outlined blue button"
+              className="hidden w-20 py-1 mr-5 leading-5 md:block lg:w-32 outlined blue button dark:text-gray-50"
             >
               Logout
             </button>
           ) : (
             <>
               <Link href="/login">
-                <a className="hidden w-20 py-1 mr-5 leading-5 md:block lg:w-32 outlined blue button">
+                <a className="hidden w-20 py-1 mr-5 leading-5 md:block lg:w-32 outlined blue button dark:text-gray-50">
                   Log in
                 </a>
               </Link>
               <Link href="/register">
-                <a className="hidden w-20 py-1 leading-5 md:block lg:w-32 blue button">
+                <a className="hidden w-20 py-1 leading-5 md:block lg:w-32 blue button dark:text-gray-50">
                   Sign up
                 </a>
               </Link>

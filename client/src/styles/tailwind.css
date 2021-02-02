@@ -4,12 +4,11 @@
 
 @layer components {
   .button {
-    @apply inline-block text-xs font-bold text-center uppercase border rounded;
+    @apply inline-block text-xs font-bold text-center uppercase border rounded dark:bg-gray-700 dark:hover:bg-gray-500;
   }
 
   .button.blue {
-    @apply text-white bg-blue-500 border-blue-500 hover:bg-blue-300 hover:border-blue-300 
-    disabled:bg-blue-300 disabled:border-blue-300 disabled:cursor-not-allowed;
+    @apply text-white bg-blue-500 border-blue-500 hover:bg-blue-300 hover:border-blue-300 disabled:bg-blue-300 disabled:border-blue-300 disabled:cursor-not-allowed;
   }
 
   .button.blue.outlined {

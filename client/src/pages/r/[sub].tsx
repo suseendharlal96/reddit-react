@@ -104,7 +104,7 @@ const Sub = () => {
                 <div className="h-20 bg-blue-500"></div>
               )}
             </div>
-            <div className="h-20 bg-white">
+            <div className="h-20 bg-white dark:bg-gray-800">
               <div className="container relative flex">
                 <div
                   onClick={() => openFileExplorer("image")}
@@ -126,11 +126,11 @@ const Sub = () => {
                 </div>
                 <div className="pt-1 pl-24">
                   <div className="flex items-center">
-                    <h1 className="mb-1 text-3xl font-bold">
+                    <h1 className="mb-1 text-3xl font-bold dark:text-gray-50">
                       {data.sub.title}
                     </h1>
                   </div>
-                  <p className="text-sm font-bold text-gray-600">
+                  <p className="text-sm font-bold text-gray-600 dark:text-gray-400">
                     /r/{data.sub.name}
                   </p>
                 </div>
