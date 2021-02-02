@@ -104,7 +104,7 @@ export default function Home() {
           )}
         </div>
         <div
-          className="fixed hidden ml-6 md:block w-80"
+          className="fixed hidden ml-6 lg:block w-80"
           style={{ right: "10%" }}
         >
           <div className="bg-white rounded">

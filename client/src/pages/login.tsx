@@ -19,15 +19,11 @@ const Login = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        "/auth/signin",
-        {
-          username,
-          password,
-        },
-        { withCredentials: true }
-      );
-      console.log(res.data);
+      const res = await axios.post("/auth/signin", {
+        username,
+        password,
+      });
+      console.log(res.data)
       dispatch("LOGIN", res.data);
       router.back();
     } catch (error) {
