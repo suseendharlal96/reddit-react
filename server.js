@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use(
   cors({
     credentials: true,
-    origin: "https://reddit-react.vercel.app",
+    origin: "https://reddit-react.vercel.app/login",
     // origin: "http://localhost:3000",
     optionsSuccessStatus: 200,
   })
