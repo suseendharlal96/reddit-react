@@ -66,7 +66,7 @@ module.exports = {
         cookie.serialize("token", token, {
           httpOnly: true,
           secure: process.env.NODE_ENV !== "development",
-          maxAge: "31536000",
+          maxAge: "3600",
           sameSite: "none",
           path: "/",
         })
@@ -84,7 +84,16 @@ module.exports = {
   },
 
   logout: (_, res) => {
-    res.clearCookie("token");
+    res.set(
+      "Set-Cookie",
+      cookie.serialize("token", "", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        sameSite: "none",
+        expires: new Date(0),
+        path: "/",
+      })
+    );
     return res.status(200).json({ success: "Logout success" });
   },
 
