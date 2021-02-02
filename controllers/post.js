@@ -93,11 +93,11 @@ module.exports = {
       if (res.locals.user) {
         const user = res.locals.user;
         const posts = await Post.find()
-          .limit(postsPerPage)
-          .skip(+currentPage * postsPerPage)
           .populate("sub")
           .populate("user")
-          .sort({ createdAt: "-1" });
+          .sort({ createdAt: "-1" })
+          .limit(postsPerPage)
+          .skip(+currentPage * postsPerPage);
         posts.forEach((post) => {
           const index = post.votes.findIndex(
             (v) => v.username === user.username
@@ -114,7 +114,9 @@ module.exports = {
           .select("-userVote")
           .populate("sub")
           .populate("user")
-          .sort({ createdAt: "-1" });
+          .sort({ createdAt: "-1" })
+          .limit(postsPerPage)
+          .skip(+currentPage * postsPerPage);
         posts.forEach((post) => {
           post.voteCount = post.votes.reduce(
             (prev, curr) => prev + (curr.value || 0),
