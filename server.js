@@ -21,9 +21,9 @@ app.use(
     credentials: true,
     origin: [
       "https://reddit-react.vercel.app",
-      "https://reddit-react.vercel.app/login",
+      "/.vercel\.app$/",
     ],
-    // origin: "http://localhost:3000",
+    // origin: "*",
     optionsSuccessStatus: 200,
   })
 );
