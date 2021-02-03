@@ -4,12 +4,6 @@ const cookie = require("cookie");
 const fs = require("fs");
 const cloudinary = require("cloudinary").v2;
 
-cloudinary.config({
-  cloud_name: "suseendhar",
-  api_key: "599153742349361",
-  api_secret: "V86S_AJovw3WJRqPZ8ZN5EKknW8",
-});
-
 const User = require("../models/User");
 
 module.exports = {
