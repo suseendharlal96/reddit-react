@@ -8,6 +8,7 @@ const isUser = require("../middleware/user");
 const isSubCreator = require("../middleware/isSubCreator");
 const subsController = require("../controllers/subs");
 
+// MULTER DISK STORAGE
 const upload = multer({
   storage: multer.diskStorage({
     destination: "public/images",
@@ -28,6 +29,21 @@ const upload = multer({
     }
   },
 });
+
+// const upload = multer({
+//   storage: multer.memoryStorage(),
+//   fileFilter: (_, file, callback) => {
+//     if (
+//       file.mimetype == "image/jpeg" ||
+//       file.mimetype == "image/jpg" ||
+//       file.mimetype == "image/png"
+//     ) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Files of type jpeg,png,jpg are only allowed"));
+//     }
+//   },
+// });
 
 const makeId = (length) => {
   let result = "";

@@ -38,10 +38,10 @@ const subsSchema = new Schema(
 subsSchema.post("find", function (doc) {
   doc.forEach((d) => {
     d.imageUrl = d.imageUrn
-      ? `${process.env.APP_URL}/images/${d.imageUrn}`
+      ? `${process.env.APP_URL}${d.imageUrn}`
       : "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
     d.bannerUrl = d.bannerUrn
-      ? `${process.env.APP_URL}/images/${d.bannerUrn}`
+      ? `${process.env.APP_URL}${d.bannerUrn}`
       : undefined;
   });
 });

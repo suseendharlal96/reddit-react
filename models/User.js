@@ -38,7 +38,7 @@ const userSchema = new Schema(
 
 userSchema.post('find',function(doc){
 doc.forEach((d)=>{
-d.profileUrl = d.profileUrn ? `${process.env.APP_URL}/images/${d.profileUrn}`
+d.profileUrl = d.profileUrn ? `${process.env.APP_URL}${d.profileUrn}`
 : "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y";
 })
 })

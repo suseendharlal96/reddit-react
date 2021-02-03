@@ -1,4 +1,11 @@
 const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: "suseendhar",
+  api_key: "599153742349361",
+  api_secret: "V86S_AJovw3WJRqPZ8ZN5EKknW8",
+});
 
 const Post = require("../models/Post");
 const Subs = require("../models/Subs");
@@ -107,16 +114,10 @@ module.exports = {
       const sub = await Subs.findOne({ name: passedSub.name });
       const type = req.body.type;
       if (!req.file) {
-        let oldImageUrn = "";
         if (type === "image") {
-          oldImageUrn = sub.imageUrn;
           sub.imageUrn = null;
         } else if (type === "banner") {
-          oldImageUrn = sub.bannerUrn;
           sub.bannerUrn = null;
-        }
-        if (oldImageUrn) {
-          fs.unlinkSync(`public/images/${oldImageUrn}`);
         }
         await sub.save();
         return res.json(sub);
@@ -125,19 +126,41 @@ module.exports = {
         fs.unlinkSync(req.file.path);
         return res.status(400).json({ error: "Invalid type" });
       }
-      let oldImageUrn = "";
       if (type === "image") {
-        oldImageUrn = sub.imageUrn;
-        sub.imageUrn = req.file.filename;
+        cloudinary.uploader.upload(
+          "public/images/" + req.file.filename,
+          async (err, result) => {
+            const cloudUrn =
+              result.secure_url.split("/")[6] +
+              "/" +
+              result.secure_url.split("/")[7];
+            try {
+              sub.imageUrn = cloudUrn;
+              await sub.save();
+              return res.json(sub);
+            } catch (err) {
+              console.log(err);
+            }
+          }
+        );
       } else if (type === "banner") {
-        oldImageUrn = sub.bannerUrn;
-        sub.bannerUrn = req.file.filename;
+        cloudinary.uploader.upload(
+          "public/images/" + req.file.filename,
+          async (err, result) => {
+            const cloudUrn =
+              result.secure_url.split("/")[6] +
+              "/" +
+              result.secure_url.split("/")[7];
+            try {
+              sub.bannerUrn = cloudUrn;
+              await sub.save();
+              return res.json(sub);
+            } catch (err) {
+              console.log(err);
+            }
+          }
+        );
       }
-      if (oldImageUrn) {
-        fs.unlinkSync(`public/images/${oldImageUrn}`);
-      }
-      await sub.save();
-      return res.json(sub);
     } catch (err) {
       console.log(err);
       return res.status(500).json({ error: "Something went wrong" });

@@ -2,6 +2,13 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
 const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: "suseendhar",
+  api_key: "599153742349361",
+  api_secret: "V86S_AJovw3WJRqPZ8ZN5EKknW8",
+});
 
 const User = require("../models/User");
 
@@ -112,13 +119,8 @@ module.exports = {
       const USER = await User.findOne({ username });
       const type = req.body.type;
       if (!req.file) {
-        let oldProfileUrn = "";
         if (type === "profile") {
-          oldProfileUrn = USER.profileUrn;
           USER.profileUrn = null;
-        }
-        if (oldProfileUrn) {
-          fs.unlinkSync(`public/images/${oldProfileUrn}`);
         }
         await USER.save();
         return res.json(USER);
@@ -127,16 +129,24 @@ module.exports = {
         fs.unlinkSync(req.file.path);
         return res.status(400).json({ error: "Invalid type" });
       }
-      let oldProfileUrn = "";
       if (type === "profile") {
-        oldProfileUrn = USER.profileUrn;
-        USER.profileUrn = req.file.filename;
+        cloudinary.uploader.upload(
+          "public/images/" + req.file.filename,
+          async (err, result) => {
+            const cloudUrn =
+              result.secure_url.split("/")[6] +
+              "/" +
+              result.secure_url.split("/")[7];
+            try {
+              USER.profileUrn = cloudUrn;
+              await USER.save();
+              return res.json(USER);
+            } catch (err) {
+              console.log(err);
+            }
+          }
+        );
       }
-      if (oldProfileUrn) {
-        fs.unlinkSync(`public/images/${oldProfileUrn}`);
-      }
-      await USER.save();
-      return res.json(USER);
     } catch (err) {
       console.log(err);
     }
