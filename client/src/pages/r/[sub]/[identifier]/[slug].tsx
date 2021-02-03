@@ -95,7 +95,9 @@ const PostPage = () => {
                   />
                 </div>
               )}
-              <p className="text-xl font-semibold text-white dark:text-gray-50">/r/{sub}</p>
+              <p className="text-xl font-semibold text-white dark:text-gray-50">
+                /r/{sub}
+              </p>
             </div>
           </div>
         </a>
@@ -146,9 +148,13 @@ const PostPage = () => {
                       </p>
                     </div>
                     {/* POST TITLE */}
-                    <h1 className="my-1 text-xl font-medium dark:text-gray-50">{post.title}</h1>
+                    <h1 className="my-1 text-xl font-medium dark:text-gray-50">
+                      {post.title}
+                    </h1>
                     {/* POST BODY */}
-                    <div className="my-3 text-sm dark:text-gray-50">{post.body}</div>
+                    <div className="my-3 text-sm dark:text-gray-50">
+                      {post.body}
+                    </div>
                     {/* ACTION BUTTONS */}
                     <div className="flex">
                       <Link href={post.url}>
@@ -258,11 +264,15 @@ const PostPage = () => {
                           </Link>
                           <span className="text-gray-600 dark:text-gray-50">
                             {`${comment.voteCount}
-                              points • ${dayjs(comment.createdAt).fromNow()}
+                              ${
+                                comment.voteCount > 1 ? "points" : "point"
+                              } • ${dayjs(comment.createdAt).fromNow()}
                               `}
                           </span>
                         </p>
-                        <p className="dark:text-gray-50">{comment.commentBody}</p>
+                        <p className="dark:text-gray-50">
+                          {comment.commentBody}
+                        </p>
                       </div>
                     </div>
                   ))}

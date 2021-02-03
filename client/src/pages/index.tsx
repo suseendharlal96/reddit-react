@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 import useSWR, { useSWRInfinite } from "swr";
 
@@ -19,7 +19,7 @@ export default function Home() {
     isValidating,
     revalidate,
     error,
-  } = useSWRInfinite((index) => `/post?page=${index}`, { revalidateAll: true });
+  } = useSWRInfinite((index) => `/post?page=${index}`);
 
   const isInitialLoading = !data && !error;
 
@@ -33,6 +33,7 @@ export default function Home() {
   const { authenticated } = useAuthState();
 
   useEffect(() => {
+    console.log(posts);
     if (!posts || posts.length === 0) return;
     const id = posts[posts.length - 1].identifier;
     if (id !== observedPost) {
@@ -75,7 +76,7 @@ export default function Home() {
   //   };
   // }, []);
   return (
-    <div>
+    <Fragment>
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
@@ -89,18 +90,22 @@ export default function Home() {
       <div className="container relative flex">
         <div className="w-full px-4 md:w-160 md:p-0">
           {isInitialLoading && (
-            <p className="text-sm text-center dark:text-gray-500">Fetching current data...</p>
+            <p className="text-sm text-center dark:text-gray-500">
+              Fetching current data...
+            </p>
           )}
-          {posts?.map((post, index: number) => (
+          {posts?.map((post) => (
             <PostCard
-              key={index}
+              key={post.identifier}
               post={post}
               imageUrl={post.sub.imageUrl}
               revalidate={revalidate}
             />
           ))}
           {isValidating && posts.length > 0 && (
-            <p className="text-lg font-semibold text-center dark:text-gray-500">Loading More...</p>
+            <p className="text-lg font-semibold text-center dark:text-gray-500">
+              Loading More...
+            </p>
           )}
         </div>
         <div
@@ -126,6 +131,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </div>
+    </Fragment>
   );
 }

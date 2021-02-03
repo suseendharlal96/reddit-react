@@ -78,8 +78,10 @@ const User = () => {
                       </div>
                       <div className="w-full p-2 ">
                         <p className="mb-2 text-xs text-gray-500 ">
-                          <span className="dark:text-gray-50">commented on </span>
-                          <Link href={comment.post.url}>
+                          <span className="dark:text-gray-50">
+                            commented on{" "}
+                          </span>
+                          <Link href={`/${comment.post.url}`}>
                             <a className="font-semibold cursor-pointer hover:underline dark:text-gray-50">
                               {comment.post.title}
                             </a>
@@ -93,7 +95,9 @@ const User = () => {
                           {dayjs(comment.createdAt).fromNow()}
                         </p>
                         <hr />
-                        <p className="dark:text-gray-50">{comment.commentBody}</p>
+                        <p className="dark:text-gray-50">
+                          {comment.commentBody}
+                        </p>
                       </div>
                     </div>
                   );

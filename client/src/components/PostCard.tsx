@@ -73,6 +73,7 @@ const PostCard = ({
 
   return (
     <div
+      key={identifier}
       className="flex mb-4 bg-white rounded dark:bg-gray-800"
       id={identifier}
     >
